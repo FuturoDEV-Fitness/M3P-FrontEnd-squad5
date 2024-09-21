@@ -7,22 +7,21 @@
   min-height: 100vh;
   width: 100vw;
   gap: 1em;
-  
+
   background-color: rgb(139, 95, 130);
   color: white;
 }
 
-.textoELogin{
+.textoELogin {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   background-color: white;
-width: 900px;
-margin-top: 20px;
-margin-bottom: 50px;
-border-radius: 4px;
-
+  width: 900px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  border-radius: 4px;
 }
 
 .textual {
@@ -61,7 +60,7 @@ border-radius: 4px;
 .containerAcesso {
   display: flex;
   flex-direction: column;
- text-align: left;
+  text-align: left;
   gap: 0.5em;
   height: 180px;
   width: 300px;
@@ -109,7 +108,7 @@ border-radius: 4px;
   outline: none;
 }
 
-.formlogin p{
+.formlogin p {
   color: rgb(221, 255, 68);
   font-size: 0.8em;
 }
