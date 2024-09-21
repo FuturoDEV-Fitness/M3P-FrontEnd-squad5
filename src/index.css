@@ -1,18 +1,25 @@
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: "Comfortaa", sans-serif;
-
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
 :root {
-
-
-  color-scheme: light dark;
-  color: rgba(73, 66, 66, 0.87);
-  background-color: #fcf9f9;
-
-
+  --background: #5e4834;
+  --primary: #ffc107;
+  --secondary: #e06d04;
+  --tertiary: #0b73de;
+  --text: #34495e;
+  --text2: #5e5434;
+  --accent: #0b73de;
+  --success: #00ff00;
+  --warning: #ffc107;
+  --error: #d00000;
 }
-
