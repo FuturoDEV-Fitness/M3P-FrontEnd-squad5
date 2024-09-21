@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 import { useForm } from "react-hook-form";
 import { InputComponent } from "../../components/Input";
 import { ButtonComponent } from "../../components/Button";
+import { SelectComponent } from "../../components/Select";
 
 function PaginaLogin() {
   const {
@@ -39,6 +40,13 @@ function PaginaLogin() {
     buscarCpf(novoUsuario);
     // cadastrarUsuario(formValue);
   }
+
+  const selectGender = [
+    { value: "", label: "Selecione" },
+    { value: "Male", label: "Masculino" },
+    { value: "Female", label: "Feminino" },
+    { value: "Other", label: "Outro" },
+  ];
 
   function buscarCEP(cep, setValue) {
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
@@ -113,6 +121,16 @@ function PaginaLogin() {
               })}
               error={!!errors.senha}
               errorMessage={errors.senha?.message}
+            />
+            <SelectComponent
+              id={"gender"}
+              label={"Gênero"}
+              error={!!errors.gender}
+              helperText={errors.gender?.message}
+              option={selectGender}
+              register={{
+                ...register("gender", { required: "Selecione uma das opções" }),
+              }}
             />
             <ButtonComponent
               variant={"outlined"}
