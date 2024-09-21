@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import styles from "./index.module.css";
 import { useForm } from "react-hook-form";
 import { InputComponent } from "../../components/Input";
+import { ButtonComponent } from "../../components/Button";
 
 function PaginaLogin() {
   const {
@@ -113,8 +114,11 @@ function PaginaLogin() {
               error={!!errors.senha}
               errorMessage={errors.senha?.message}
             />
-
-            <button type="submit">LogIn</button>
+            <ButtonComponent
+              variant={"outlined"}
+              type={"submit"}
+              text={"Login"}
+            />
           </form>
 
           <span>Não possui conta?</span>
