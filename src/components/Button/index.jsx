@@ -39,8 +39,3 @@ ButtonComponent.propTypes = {
   preset: PropTypes.string,
   text: PropTypes.string.isRequired,
 };
-
-ButtonComponent.defaultProps = {
-  disabled: false,
-  preset: "default",
-};

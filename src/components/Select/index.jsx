@@ -49,9 +49,3 @@ SelectComponent.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
 };
-
-SelectComponent.defaultProps = {
-  error: false,
-  helperText: "",
-  option: [],
-};
