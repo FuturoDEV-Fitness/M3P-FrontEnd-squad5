@@ -1,7 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { UsuariosContext } from "../context/UsuariosContext";
-import styles from "./FormularioCadastro.module.css";
+import styles from "../index.module.css";
+import { InputComponent } from "../../Input";
+import { ButtonComponent } from "../../Button";
+import { SelectComponent } from "../../Select";
+import { selectGender } from "../../../helper/selectInstance";
+import { styled } from "@mui/material";
 
 export const FormRegisterUsuarioComponent = () => {
   const {
@@ -10,15 +14,8 @@ export const FormRegisterUsuarioComponent = () => {
     formState: { errors },
     setValue,
   } = useForm();
-  const { cadastrarUsuario, buscarCpf } = useContext(UsuariosContext);
-  const [cepPreenchido, setCepPreenchido] = useState(false);
 
-  function cadUsuOnsubmit(novoUsuario) {
-    buscarCpf(novoUsuario);
-    // cadastrarUsuario(novoUsuario);
-  }
-
-  function buscarCEP(cep, setValue) {
+  function buscarCEP(cep) {
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
       .then((response) => response.json())
       .then((data) => {
@@ -26,158 +23,184 @@ export const FormRegisterUsuarioComponent = () => {
         setValue("bairro", data.bairro);
         setValue("cidade", data.localidade);
         setValue("estado", data.uf);
-        setCepPreenchido(true);
       })
       .catch((error) => console.error("Erro ao buscar o CEP:", error));
   }
 
   const cepOnSubmit = (data) => {
-    buscarCEP(data.cep, setValue);
+    buscarCEP(data.cep);
   };
 
   return (
-    <div>
-      <h2>Formulário de Cadastro</h2>
-      <form
-        className={styles.formlogin}
-        onSubmit={handleSubmit(cadUsuOnsubmit)}
-      >
-        <label htmlFor="nome">Nome</label>
-        <input
-          type="text"
-          placeholder="Nome Sobrenome"
-          {...register("nome", {
-            required: "Obrigatório o preenchimento",
-            maxLength: { value: 60, message: "máximo de 60 caracteres" },
-          })}
-        />
-        {errors.nome && <p>{errors.nome.message}</p>}
+    <div className={styles.form}>
+      <h2 className={styles.formTitle}>Formulário de Cadastro </h2>
+      <form className={styles.formlogin}>
+        <div className={styles.formRow}>
+          <InputComponent
+            label="Nome"
+            type="text"
+            id="nome"
+            placeholder="Nome Sobrenome"
+            register={register("nome", {
+              required: "Obrigatório o preenchimento",
+              maxLength: { value: 60, message: "máximo de 60 caracteres" },
+            })}
+            error={errors.nome}
+            errorMessage={errors.nome?.message}
+          />
 
-        <label htmlFor="sexo">Sexo</label>
-        <input
-          type="text"
-          placeholder="masculino/feminino"
-          {...register("sexo", {
-            required: "Obrigatório o preenchimento",
-            maxLength: { value: 9, message: "máximo de 9 caracteres" },
-          })}
-        />
-        {errors.sexo && <p>{errors.sexo.message}</p>}
+          <InputComponent
+            label="CPF"
+            type="text"
+            id="cpf"
+            placeholder="000000000 - apenas números"
+            register={register("cpf", {
+              required: "Obrigatório o preenchimento",
+              maxLength: { value: 11, message: "são 11 caracteres" },
+              minLength: { value: 11, message: "mínimo de 11 caracteres" },
+            })}
+            error={errors.cpf}
+            errorMessage={errors.cpf?.message}
+          />
 
-        <label htmlFor="cpf">CPF</label>
-        <input
-          type="text"
-          placeholder="000000000 - apenas números"
-          {...register("cpf", {
-            required: "Obrigatório o preenchimento",
-            maxLength: { value: 11, message: "são 11 caracteres" },
-            minLength: { value: 11, message: "mínimimo de 11 caracteres" },
-          })}
-        />
-        {errors.cpf && <p>{errors.cpf.message}</p>}
+          <SelectComponent
+            id={"sexo"}
+            label={"Gênero"}
+            error={!!errors.sexo}
+            helperText={errors.sexo?.message}
+            option={selectGender}
+            register={{
+              ...register("sexo", { required: "Selecione uma das opções" }),
+            }}
+          />
+        </div>
+        <div className={styles.formRow}>
+          <InputComponent
+            label="Nascimento"
+            type="date"
+            id="nascimento"
+            register={register("nascimento", {
+              required: "Obrigatório o preenchimento",
+            })}
+            error={errors.nascimento}
+            errorMessage={errors.nascimento?.message}
+          />
 
-        <label htmlFor="nascimento">Nascimento</label>
-        <input
-          type="date"
-          {...register("nascimento", {
-            required: "Obrigatório o preenchimento",
-          })}
-        />
-        {errors.nascimento && <p>{errors.nascimento.message}</p>}
+          <InputComponent
+            label="Email"
+            type="email"
+            id="email"
+            placeholder="email@email.com.br"
+            register={register("email", {
+              required: "Obrigatório o preenchimento",
+            })}
+            error={errors.email}
+            errorMessage={errors.email?.message}
+          />
 
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          placeholder="email@email.com.br"
-          {...register("email", {
-            required: "Obrigatório o preenchimento",
-          })}
-        />
-        {errors.email && <p>{errors.email.message}</p>}
+          <InputComponent
+            label="Senha"
+            type="password"
+            id="senha"
+            register={register("senha", {
+              required: "Obrigatório o preenchimento",
+              maxLength: { value: 8, message: "máximo de 8 caracteres" },
+            })}
+            error={errors.senha}
+            errorMessage={errors.senha?.message}
+          />
+        </div>
+        <div className={styles.formRow}>
+          <InputComponent
+            label="CEP"
+            type="text"
+            id="cep"
+            placeholder="00000000 - apenas números"
+            register={register("cep", {
+              required: "Obrigatório o preenchimento",
+              maxLength: { value: 8, message: "máximo de 8 caracteres" },
+              pattern: {
+                value: /^[0-9]*$/,
+                message: "Apenas números são permitidos",
+              },
+            })}
+            error={errors.cep}
+            errorMessage={errors.cep?.message}
+            cep={true}
+            onClick={handleSubmit(cepOnSubmit)}
+          />
 
-        <label htmlFor="senha">Senha</label>
-        <input
-          type="password"
-          {...register("senha", {
-            required: "Obrigatório o preenchimento",
-            maxLength: { value: 8, message: "máximo de 8 caracteres" },
-          })}
-        />
-        {errors.senha && <p>{errors.senha.message}</p>}
+          <InputComponent
+            label="Endereço"
+            type="text"
+            id="endereco"
+            readOnly={true}
+            placeholder="Endereço"
+            register={register("endereco", {
+              required: "Necessário o preenchimento",
+            })}
+            error={errors.endereco}
+            errorMessage={errors.endereco?.message}
+          />
 
-        <label htmlFor="cep">CEP</label>
-        <input
-          type="text"
-          placeholder="00000000 - apenas numeros"
-          {...register("cep", {
-            required: "Obrigatório o preenchimento",
-            maxLength: { value: 8, message: "máximo de 8 caracteres" },
-            pattern: {
-              value: /^[0-9]*$/,
-              message: "Apenas números são permitidos",
-            },
-          })}
-        />
-        {errors.cep && <p>{errors.cep.message}</p>}
+          <InputComponent
+            label="Bairro"
+            type="text"
+            id="bairro"
+            placeholder="Bairro"
+            readOnly={true}
+            register={register("bairro", {
+              required: "Necessário o preenchimento",
+            })}
+            error={errors.bairro}
+            errorMessage={errors.bairro?.message}
+          />
+        </div>
+        <div className={styles.formRow}>
+          <InputComponent
+            label="Cidade"
+            type="text"
+            id="cidade"
+            placeholder="Cidade"
+            readOnly={true}
+            register={register("cidade", {
+              required: "Necessário o preenchimento",
+            })}
+            error={errors.cidade}
+            errorMessage={errors.cidade?.message}
+          />
 
-        <button type="button" onClick={handleSubmit(cepOnSubmit)}>
-          Buscar CEP
-        </button>
+          <InputComponent
+            label="Estado"
+            type="text"
+            id="estado"
+            placeholder="Estado"
+            readOnly={true}
+            register={register("estado", {
+              required: "Necessário o preenchimento",
+              maxLength: { value: 2, message: "máximo de 2 caracteres" },
+              minLength: { value: 2, message: "mínimo de 2 caracteres" },
+            })}
+            error={errors.estado}
+            errorMessage={errors.estado?.message}
+          />
 
-        {/* Campos de endereço e complementos */}
-        <label htmlFor="endereco">Endereço</label>
-        <input
-          type="text"
-          placeholder="teu endereço"
-          {...register("endereco", {
-            required: cepPreenchido ? "Necessário o preenchimento" : false,
-          })}
-        />
-        {errors.endereco && <p>{errors.endereco.message}</p>}
-
-        <label htmlFor="bairro">Bairro</label>
-        <input
-          type="text"
-          placeholder="teu bairro"
-          {...register("bairro", {
-            required: cepPreenchido ? "Necessário o preenchimento" : false,
-          })}
-        />
-        {errors.bairro && <p>{errors.bairro.message}</p>}
-
-        <label htmlFor="cidade">Cidade</label>
-        <input
-          type="text"
-          placeholder="tua cidade"
-          {...register("cidade", {
-            required: cepPreenchido ? "Necessário o preenchimento" : false,
-          })}
-        />
-        {errors.cidade && <p>{errors.cidade.message}</p>}
-
-        <label htmlFor="estado">Estado</label>
-        <input
-          type="text"
-          placeholder="teu estado"
-          {...register("estado", {
-            required: cepPreenchido ? "Necessário o preenchimento" : false,
-            maxLength: { value: 2, message: "máximo de 2 caracteres" },
-            minLength: { value: 2, message: "mínimo de 2 caracteres" },
-          })}
-        />
-        {errors.estado && <p>{errors.estado.message}</p>}
-
-        <label htmlFor="complemento">Complemento</label>
-        <input
-          type="text"
-          placeholder="Detalhes diferenciais"
-          {...register("complemento", {
-            required: cepPreenchido ? "Necessário o preenchimento" : false,
-          })}
-        />
-        {errors.complemento && <p>{errors.complemento.message}</p>}
-
-        <button type="submit">Cadastrar</button>
+          <InputComponent
+            label="Complemento"
+            type="text"
+            id="complemento"
+            placeholder="Detalhes diferenciais"
+            register={register("complemento", {
+              required: "Necessário o preenchimento",
+            })}
+            error={errors.complemento}
+            errorMessage={errors.complemento?.message}
+          />
+        </div>
+        <div className={styles.formRow}>
+          <ButtonComponent type="submit" variant="contained" text="Cadastrar" />
+          <span className={styles.styledLink}>Voltar para o login?</span>
+        </div>
       </form>
     </div>
   );
