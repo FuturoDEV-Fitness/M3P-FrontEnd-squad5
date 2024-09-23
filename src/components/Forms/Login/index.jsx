@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { InputComponent } from "../../Input";
 import { ButtonComponent } from "../../Button";
-import styles from "./index.module.css";
+import styles from "../index.module.css";
 
 export const FormLoginComponent = () => {
   const {
