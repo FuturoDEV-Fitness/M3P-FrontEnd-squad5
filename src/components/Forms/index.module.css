@@ -45,12 +45,10 @@
 .formColumn {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem; /* Mantém um bom espaçamento */
   width: 100%;
-  padding: 0.5rem;
-  gap: 1rem;
-  text-align: center;
+  padding: 1rem;
 }
 
 @media (max-width: 1024px) {
@@ -62,17 +60,16 @@
 .formRow {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  width: 100%;
-  gap: 1rem;
-  margin: 0.5rem;
-  text-align: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  text-align: left;
 }
-
 @media (max-width: 1024px) {
   .formRow {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 1rem;
   }
 }
 
