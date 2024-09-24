@@ -4,8 +4,11 @@ import { useForm } from "react-hook-form";
 import { InputComponent } from "../../Input";
 import { ButtonComponent } from "../../Button";
 import styles from "../index.module.css";
+import { LoginContext } from "../../../context/LoginContext";
 
 export const FormLoginComponent = () => {
+  const { showRegister } = useContext(LoginContext);
+
   const {
     register,
     handleSubmit,
@@ -15,7 +18,7 @@ export const FormLoginComponent = () => {
   return (
     <div className={styles.loginForm}>
       <h1 className={styles.formTitle}>Login</h1>
-      <form className={styles.Column}>
+      <form className={styles.formColumn}>
         <InputComponent
           label="Email"
           type="email"
@@ -43,11 +46,10 @@ export const FormLoginComponent = () => {
           error={!!errors.senha}
           errorMessage={errors.senha?.message}
         />
-
-        <div className={styles.formColumn}>
-          <span className={styles.styledLink}>Não possui conta?</span>
-          <ButtonComponent variant="outlined" type="submit" text="Login" />
-        </div>
+        <span className={styles.styledLink} onClick={showRegister}>
+          Não possui conta? Clique aqui para criar uma!
+        </span>
+        <ButtonComponent variant="outlined" type="submit" text="Login" />
       </form>
     </div>
   );

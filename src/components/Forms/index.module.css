@@ -15,11 +15,12 @@
 }
 
 .loginForm {
-  width: 30%;
+  width: 40%;
   margin: 1rem;
   border: none;
+  justify-content: center;
+  align-items: center;
   border-radius: 1rem;
-  padding: 1rem;
   background: var(--primary);
 }
 
@@ -45,8 +46,9 @@
 .formColumn {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem; /* Mantém um bom espaçamento */
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
   padding: 1rem;
 }
@@ -144,6 +146,7 @@
 
 .styledLink {
   display: flex;
+  cursor: pointer;
   color: var(--text);
   font-size: 1rem;
   font-weight: 400;

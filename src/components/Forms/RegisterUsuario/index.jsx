@@ -1,13 +1,15 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../index.module.css";
 import { InputComponent } from "../../Input";
 import { ButtonComponent } from "../../Button";
 import { SelectComponent } from "../../Select";
 import { selectGender } from "../../../helper/selectInstance";
-import { styled } from "@mui/material";
+import { LoginContext } from "../../../context/LoginContext";
 
 export const FormRegisterUsuarioComponent = () => {
+  const { showLogin } = useContext(LoginContext);
+
   const {
     register,
     handleSubmit,
@@ -199,7 +201,9 @@ export const FormRegisterUsuarioComponent = () => {
         </div>
         <div className={styles.formRow}>
           <ButtonComponent type="submit" variant="contained" text="Cadastrar" />
-          <span className={styles.styledLink}>Voltar para o login?</span>
+          <span className={styles.styledLink} onClick={showLogin}>
+            Voltar para o login?
+          </span>
         </div>
       </form>
     </div>
