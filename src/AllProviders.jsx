@@ -3,13 +3,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { UsuariosContextProvider } from "./context/UsuariosContext";
 import { LocaisContextProvider } from "./context/LocaisContext";
 import PropTypes from "prop-types";
+import { LoginContextProvider } from "./context/LoginContext";
 
 export const AllProviders = ({ children }) => {
   return (
     <UsuariosContextProvider>
       <LocaisContextProvider>
-        <ToastContainer />
-        {children}
+        <LoginContextProvider>
+          <ToastContainer />
+          {children}
+        </LoginContextProvider>
       </LocaisContextProvider>
     </UsuariosContextProvider>
   );
