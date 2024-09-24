@@ -33,10 +33,14 @@ export const FormRegisterUsuarioComponent = () => {
     buscarCEP(data.cep);
   };
 
+  const registerUser = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className={styles.form}>
       <h2 className={styles.formTitle}>Formulário de Cadastro </h2>
-      <form className={styles.formlogin}>
+      <form className={styles.formlogin} onSubmit={handleSubmit(registerUser)}>
         <div className={styles.formRow}>
           <InputComponent
             label="Nome"

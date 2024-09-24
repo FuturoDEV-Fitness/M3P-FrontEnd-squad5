@@ -5,9 +5,13 @@ import { InputComponent } from "../../Input";
 import { ButtonComponent } from "../../Button";
 import styles from "../index.module.css";
 import { LoginContext } from "../../../context/LoginContext";
+import { axiosInstance } from "../../../helper/axiosInstance";
+import { setLocalStorage } from "../../../helper/LocalStorageInstance";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const FormLoginComponent = () => {
   const { showRegister } = useContext(LoginContext);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,10 +19,24 @@ export const FormLoginComponent = () => {
     formState: { errors },
   } = useForm();
 
+  const login = async (data) => {
+    const user = await axiosInstance
+      .get(`usuarios?email=${data.email}`)
+      .then((res) => {
+        return res.data[0];
+      });
+
+    if (!user || user.senha !== data.senha) {
+      return alert("Email ou senha errado");
+    }
+    setLocalStorage("user", user);
+    navigate("/");
+  };
+
   return (
     <div className={styles.loginForm}>
       <h1 className={styles.formTitle}>Login</h1>
-      <form className={styles.formColumn}>
+      <form className={styles.formColumn} onSubmit={handleSubmit(login)}>
         <InputComponent
           label="Email"
           type="email"
