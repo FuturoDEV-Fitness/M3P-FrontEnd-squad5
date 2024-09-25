@@ -41,6 +41,7 @@ export const lerUsuariosPorId = async (id) => {
     try {
         const response = await axiosInstance.get(`/usuarios/${id}`);
         return response.data;
+        
     } catch (error) {
         console.error("Erro ao buscar usuário por ID:", error);
         throw error;
@@ -55,7 +56,7 @@ export const procurarUsuario = async (email, senha) => {
         });
         const { token, id } = response.data;
         setLocalStorage('token', token)
-        setLocalStorage('usuarioId', id)
+
 
         return { token, id }; 
     } catch (error) {
@@ -75,22 +76,7 @@ export const procurarUsuario = async (email, senha) => {
 export const cadastrarUsuario = async (novoUsuario) => {
     await axiosInstance
         .post(`/users`, novoUsuario
-        //     {
-        //     nome: novoUsuario.nome,
-        //     email: novoUsuario.email,
-        //     sexo: novoUsuario.sexo,
-        //     cpf: unformatCPF(novoUsuario.cpf),
-        //     dataNascimento: novoUsuario.dataNascimento,
-        //     senha: novoUsuario.senha,
-        //     logradouro: novoUsuario.logradouro,
-        //     numero: novoUsuario.numero,
-        //     bairro: novoUsuario.bairro,
-        //     cidade: novoUsuario.cidade,
-        //     estado: novoUsuario.estado,
-        //     cep: novoUsuario.cep,
-        //     complemento: novoUsuario.complemento
-            
-        // }
+      
     )
         .then(() => {
             return "Usuário cadastrado com sucesso";
