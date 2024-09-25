@@ -110,7 +110,7 @@
       "latitude": "-27.60782774761778",
       "longitude": "-48.46615213745826",
       "praticasEsportivas": ["caminhada", "skate"],
-      "idCadastrante": 1
+      "user_id": 1
     },
     {
       "id": 2,
@@ -124,7 +124,7 @@
       "latitude": "48.86388900000",
       "longitude": "2.32611100000",
       "praticasEsportivas": ["esportes coletivos", "surf"],
-      "idCadastrante": 2
+      "user_id": 2
     },
     {
       "id": 3,
@@ -144,7 +144,7 @@
         "skate",
         "esportes coletivos"
       ],
-      "idCadastrante": 5
+      "user_id": 5
     },
     {
       "id": 4,
@@ -158,7 +158,7 @@
       "latitude": "-30.03779603988146",
       "longitude": "-51.2417343614829",
       "praticasEsportivas": ["caminhada", "corrida", "esportes coletivos"],
-      "idCadastrante": 4
+      "user_id": 4
     },
     {
       "id": 5,
@@ -177,7 +177,7 @@
         "musculação",
         "esportes coletivos"
       ],
-      "idCadastrante": 4
+      "user_id": 4
     },
     {
       "id": 6,
@@ -191,7 +191,7 @@
       "latitude": "-27.589673450716738",
       "longitude": "-48.516808015812906",
       "praticasEsportivas": ["caminhada", "skate"],
-      "idCadastrante": 2
+      "user_id": 2
     }
   ]
 }
