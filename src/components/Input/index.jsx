@@ -36,6 +36,7 @@ export const InputComponent = ({
           <input
             className={styles.checkboxInput}
             type="checkbox"
+            value={value}
             onInput={onInput}
             mask={mask}
             as={as}

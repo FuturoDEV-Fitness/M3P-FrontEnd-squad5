@@ -109,7 +109,10 @@
       "estado": "SC",
       "latitude": "-27.60782774761778",
       "longitude": "-48.46615213745826",
-      "praticasEsportivas": ["caminhada", "skate"],
+      "praticasEsportivas": [
+        "Tênis",
+        "Natação"
+      ],
       "user_id": 1
     },
     {
@@ -123,7 +126,10 @@
       "estado": "Parisienses",
       "latitude": "48.86388900000",
       "longitude": "2.32611100000",
-      "praticasEsportivas": ["esportes coletivos", "surf"],
+      "praticasEsportivas": [
+        "Musculação",
+        "Futebol"
+      ],
       "user_id": 2
     },
     {
@@ -138,60 +144,28 @@
       "latitude": "-23.586521476591",
       "longitude": "-46.657944776719646",
       "praticasEsportivas": [
-        "caminhada",
-        "corrida",
-        "musculação",
-        "skate",
-        "esportes coletivos"
+        "Musculação",
+        "Corrida",
+        "Outros"
       ],
       "user_id": 5
     },
     {
-      "id": 4,
-      "nomeLocal": "Parque Moacyr Scliar",
-      "descricaoLocal": "também chamado Parque do Gasômetro, é um parque urbano localizado no Centro Histórico de Porto Alegre, às margens do Lago Guaíba. Com 1,3 quilômetros de extensão",
-      "cep": "90010283",
-      "endereco": "Rua Duque de Caxias",
-      "bairro": "Centro Histórico",
-      "cidade": "Porto Alegre",
-      "estado": "RS",
-      "latitude": "-30.03779603988146",
-      "longitude": "-51.2417343614829",
-      "praticasEsportivas": ["caminhada", "corrida", "esportes coletivos"],
-      "user_id": 4
-    },
-    {
-      "id": 5,
-      "nomeLocal": "Quadras Poliesportivas Beira Mar Norte",
-      "descricaoLocal": "Quadras de areia para prática de beach tennis, volei e academia, além de ciclovia e área de corrida e caminha",
-      "cep": "88010400",
-      "endereco": "Praça Quinze de Novembro",
+      "nomeLocal": "asfffffffffffffffffffffffffffffffffffff",
+      "descricaoLocal": "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "cep": "88010010",
+      "endereco": "Rua Trajano",
       "bairro": "Centro",
       "cidade": "Florianópolis",
-      "estado": "SC",
-      "latitude": "-27.584413778358503",
-      "longitude": "-48.54753204071557",
+      "estado": "Santa Catarina",
+      "latitude": "-27.5958836",
+      "longitude": "-48.5499792",
       "praticasEsportivas": [
-        "caminhada",
-        "corrida",
-        "musculação",
-        "esportes coletivos"
+        "Musculação",
+        "Natação",
+        "Vôlei"
       ],
-      "user_id": 4
-    },
-    {
-      "id": 6,
-      "nomeLocal": "Pista de Skate da Trindade",
-      "descricaoLocal": "Um local com variedade de pistas para a prática de skate, patins e bicicleta. Além de espaço desfrutar sozinho ou em grupo.",
-      "cep": "88035005",
-      "endereco": "Rua Santa Mônica",
-      "bairro": "Santa Mônica",
-      "cidade": "Florianópolis",
-      "estado": "SC",
-      "latitude": "-27.589673450716738",
-      "longitude": "-48.516808015812906",
-      "praticasEsportivas": ["caminhada", "skate"],
-      "user_id": 2
+      "id": 4
     }
   ]
 }
