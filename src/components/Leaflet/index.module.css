@@ -1,77 +1,45 @@
 .mapContainer {
-  height: 30rem;
-  width: 75%;
-  border-radius: 1rem;
+  width: 80vw;
+  height: 70vh;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
 }
 
 @media (max-width: 768px) {
   .mapContainer {
-    width: 100%;
+    width: 90vw;
+    height: 50vh;
   }
-}
-
-.popup {
-  height: auto;
-  width: auto;
-}
-
-.popupContainer {
-  border-radius: 1rem;
-  padding: 1rem;
-  background-color: var(--secondary);
 }
 
 .popupTitle {
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 12px;
   color: var(--text);
-  margin-bottom: 0.5rem;
-}
-
-.popupContent {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  text-align: center;
-  justify-content: flex-start;
 }
 
 .popupSpan {
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: var(--text);
-  max-height: 100px;
-  overflow-y: auto;
+  font-size: 1rem;
+  color: var(--text2);
 }
 
 .popupGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 100%;
-  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .popupSportType {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text2);
-  background-color: var(--tertiary);
-  border-radius: 1rem;
-}
-
-.closeButton {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
-  cursor: pointer;
-  font-size: 2rem;
+  background-color: var(--secondary);
   color: var(--text);
-}
-
-@media (max-width: 768px) {
-  .closeButton {
-    right: 1rem;
-  }
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.9em;
+  margin-right: 6px;
+  margin-bottom: 6px;
 }
 
 .customMarkerCluster {
@@ -86,12 +54,9 @@
   color: var(--text);
 }
 
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  background-color: transparent;
-  box-shadow: none;
-}
-
-.leaflet-popup-close-button {
-  display: none;
+.popupContainer {
+  padding: 16px;
+  max-width: 260px;
+  color: var(--text);
+  font-size: 1rem;
 }
