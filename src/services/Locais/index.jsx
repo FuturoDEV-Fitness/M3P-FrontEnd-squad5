@@ -57,38 +57,10 @@ export const Delete = async (id) => {
     });
 };
 
-// Metodos de criar e atualizar, serão refatorados quando o backend estiver pronto
-/*
 export const Store = async (data) => {
   try {
-    const sportsTypesArray = [
-      { name: "Musculação", hasOption: data.option1 },
-      { name: "Futebol", hasOption: data.option2 },
-      { name: "Natação", hasOption: data.option3 },
-      { name: "Basquete", hasOption: data.option4 },
-      { name: "Tênis", hasOption: data.option5 },
-      { name: "Vôlei", hasOption: data.option6 },
-      { name: "Corrida", hasOption: data.option7 },
-      { name: "Yoga", hasOption: data.option8 },
-      { name: "Outros", hasOption: data.option9 },
-    ];
-
     await axiosInstance
-      .post(`locations`, {
-        user_id: data.user_id,
-        name: data.name,
-        description: data.description,
-        location: data.location,
-        zipcode: data.zipcode,
-        neighborhood: data.neighborhood,
-        city: data.city,
-        state: data.state,
-        coordinates: {
-          latitude: data.latitude,
-          longitude: data.longitude,
-        },
-        sports_types: sportsTypesArray,
-      })
+      .post(`listaLocais`, data)
       .then(async () => {
         return "Local cadastrado com sucesso";
       })
@@ -102,35 +74,8 @@ export const Store = async (data) => {
 };
 
 export const Update = async (id, newData) => {
-  const sportsTypesArray = [
-    { name: "Musculação", hasOption: newData.option1 },
-    { name: "Futebol", hasOption: newData.option2 },
-    { name: "Natação", hasOption: newData.option3 },
-    { name: "Basquete", hasOption: newData.option4 },
-    { name: "Tênis", hasOption: newData.option5 },
-    { name: "Vôlei", hasOption: newData.option6 },
-    { name: "Corrida", hasOption: newData.option7 },
-    { name: "Yoga", hasOption: newData.option8 },
-    { name: "Outros", hasOption: newData.option9 },
-  ];
-  const data = {
-    user_id: newData.user_id,
-    name: newData.name,
-    description: newData.description,
-    location: newData.location,
-    zipcode: newData.zipcode,
-    neighborhood: newData.neighborhood,
-    city: newData.city,
-    state: newData.state,
-    coordinates: {
-      latitude: newData.latitude,
-      longitude: newData.longitude,
-    },
-    sports_types: sportsTypesArray,
-  };
-
   await axiosInstance
-    .put(`locations/${id}`, data)
+    .put(`locations/${id}`, newData)
     .then(() => {
       return "Atualizado com sucesso";
     })
@@ -138,4 +83,4 @@ export const Update = async (id, newData) => {
       console.log("err: ", err);
       console.log(`Erro ao atualizar ${err.message}`);
     });
-};*/
+};
