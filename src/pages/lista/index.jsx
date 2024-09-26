@@ -1,64 +1,54 @@
-import { UsuariosContext } from '../../context/UsuariosContext';
 import { useContext, useEffect, useState } from 'react';
 import styles from "./index.module.css"
 import { useNavigate } from 'react-router-dom';
-import { func } from 'prop-types';
+import { LocaisContext } from '../../context/LocaisContext'
+import { GetLocations} from '../../services/Locais'
+import {ButtonComponent} from '../../components/Button'
 
 
-function PaginaLista() {
-
-    const { lerLocais, setCadLocal, setMostrarEdicaoLocal, listalocais, apagarLocal } = useContext(UsuariosContext);
-
-
-
+export const PaginaLocais = ()=> {
+    const { locais, } = useContext(LocaisContext)
     const navigate = useNavigate();
 
+    //aqui ou no context?
     useEffect(() => {
-        lerLocais(); // Carregar locais ao montar a página
+        GetLocations(); //extrair dados???
+        //setLocais()
     }, []);
-
-
 
     function voltarCadastroLocais(id) {
         setCadLocal(false)
         setMostrarEdicaoLocal(true)
         navigate(`/cadastro/${id}`);
-        //guardar o do local
-        //faz lerLocaisporId(id) para preencher o formulário com informações do usuario ativo
     }
 
 
     return (
 
         <div className={styles.container}>
-
-
             <div className={styles.textual}>
-
                 <h1>Lista de Locais X</h1>
             </div>
-
-
             <div className={styles.containerRenderizador}>
-                {Array.isArray(listalocais) && listalocais.length > 0 ? (
-                    listalocais.map(local => (
-                        <div key={local.id}>
-                            <h3>Local: {local.nomeLocal}</h3>
-                            <p>Descrição: {local.descricaoLocal}</p>
-                            <p>local: {local.endereco}</p>
-                            <p>Bairro: {local.bairro}</p>
-                            <p>Cidade: {local.cidade}</p>
-                            <p>Estado: {local.estado}</p>
-                            <p>Latitude: {local.latitude}</p>
-                            <p>Longitude: {local.longitude}</p>
 
+                {/* era pra ser um CARD */}
+                {Array.isArray(locais) && locais.length > 0 ? (
+                    locais.map(local => (
+                        <div key={local.id}>
+                            <h3>{local.nomeLocal}</h3>
+                            <p>{local.descricaoLocal}</p>
+                           
                             <p>Práticas permitidas: {local.praticasEsportivas.map((praticaX, index) => (
                                 <span key={index}>{index == local.praticasEsportivas.length - 1 ? `${" "}${praticaX}.` :
                                     `${" "}${praticaX},`}
                                 </span>
                             ))}</p>
-                            <button onClick={() => voltarCadastroLocais(local.id)}>Editar</button>
-                            <button onClick={() => apagarLocal(local.id)}>Excluir</button>
+                             <ButtonComponent 
+                            onClick={() => voltarCadastroLocais(local.id)}
+                            text='Editar'/>
+                            <ButtonComponent 
+                            onClick={() => apagarLocal(local.id)}
+                            text='Excluir'/>
                         </div>
                     ))
                 ) : (
@@ -66,11 +56,6 @@ function PaginaLista() {
                 )}
             </div>
         </div >
-
-
-
-
     )
 }
-
-export default PaginaLista;
+;
