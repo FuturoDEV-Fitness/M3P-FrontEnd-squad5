@@ -8,11 +8,16 @@
 .checkboxLabel {
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  width: 100%;
   color: var(--text);
 }
 
 .checkboxInput {
-  margin-right: 0.5rem;
+  margin-right: 0.75rem;
+  width: 1.5rem; /* Ajusta o tamanho do checkbox */
+  height: 1.5rem;
 }
 
 .label {
