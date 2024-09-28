@@ -1,17 +1,12 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import PaginaErro from "../pages/PaginaErro";
 import PaginaLista from "../pages/lista/index.jsx";
 import DashBoard from "../pages/dashboard/index.jsx";
 import { PaginaLogin } from "../pages/login/index.jsx";
-import { getLocalStorage } from "../helper/LocalStorageInstance.jsx";
 import { CadastroLocalExercicio } from "../pages/cadastro/index.jsx";
+import { PrivateRoutes } from "./PrivateRoutes.jsx";
 
-const usuarioLogado = getLocalStorage("user");
-
-const PrivateRoute = ({ children }) => {
-  return usuarioLogado ? children : <Navigate to="/login" />;
-};
 const routes = createBrowserRouter([
   {
     path: "/login",
@@ -20,11 +15,7 @@ const routes = createBrowserRouter([
 
   {
     path: "/",
-    element: (
-      <PrivateRoute>
-        <App />
-      </PrivateRoute>
-    ),
+    element: <App />,
     errorElement: <PaginaErro />,
     children: [
       {
@@ -33,12 +24,28 @@ const routes = createBrowserRouter([
       },
 
       {
+        path: "/cadastro",
+        element: (
+          <PrivateRoutes>
+            <CadastroLocalExercicio />
+          </PrivateRoutes>
+        ),
+      },
+      {
         path: "/cadastro/:id?",
-        element: <CadastroLocalExercicio />,
+        element: (
+          <PrivateRoutes>
+            <CadastroLocalExercicio />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/lista",
-        element: <PaginaLista />,
+        element: (
+          <PrivateRoutes>
+            <PaginaLista />
+          </PrivateRoutes>
+        ),
       },
     ],
   },
