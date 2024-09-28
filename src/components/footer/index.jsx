@@ -1,19 +1,39 @@
-import styles from "./index.module.css"
+import styles from "./index.module.css";
+import CopyrightIcon from "@mui/icons-material/Copyright";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
-
-function Footer(){
-    return(
-        <footer className={styles.footer}>
-        <span className={styles.esquerda}>Fitness PlaceX
-
-        </span>
-        <span className={styles.direita}>
-            <a href="https://github.com/" target="blank"><img src="../githubiconsmall.png" alt="icone github" /></a>
-            <a href="https://br.linkedin.com" target="blank"><img src="../linkediniconsmall.png" alt="icone linkedin" /></a>
-            <a href="https://www.instagram.com/" target="blank"><img src="../instagramiconsmall.png" alt="icone instagram" /></a>
-        </span>
+function Footer() {
+  return (
+    <footer className={styles.footer}>
+      <span className={styles.titleSpan}>
+        {" "}
+        Todos direitos reservados para &copy;G.M.J.Exercises TM
+      </span>
+      <span className={styles.footerLinks}>
+        <a
+          href="https://github.com/glautonOsorio"
+          target="blank"
+          className={styles.gitLink}
+        >
+          <GitHubIcon /> Glauton
+        </a>
+        <a
+          href="https://github.com/marcelovntr"
+          target="blank"
+          className={styles.gitLink}
+        >
+          <GitHubIcon /> Marcelo
+        </a>
+        <a
+          href="https://github.com/jayemelBR"
+          target="blank"
+          className={styles.gitLink}
+        >
+          <GitHubIcon /> Jorge
+        </a>
+      </span>
     </footer>
-    )
+  );
 }
 
-export default Footer
+export default Footer;

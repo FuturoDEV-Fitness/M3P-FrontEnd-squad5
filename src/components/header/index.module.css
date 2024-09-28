@@ -1,9 +1,10 @@
 .header {
   position: fixed;
-  width: 100vw;
-  height: 3em;
-  background-color: rgb(88, 66, 88);
-  color: white;
+  z-index: 1000;
+  width: 100%;
+  height: 4rem;
+  background-color: var(--primary);
+  color: var(--text2);
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -15,20 +16,46 @@
   justify-content: center;
   margin-left: 0;
   margin-right: 50px;
-  
 }
-
-.header h4{
-  margin-left: 80px;
-  width: 130px;
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.titleH1 {
+  font-size: 3rem;
+  margin-left: 1rem;
+  font-weight: 900;
+}
+.titleSpan {
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+.titleP {
+  font-size: 3rem;
+  color: var(--text);
 }
 .link {
+  display: flex;
+  color: var(--text2);
+  font-size: 1.2rem;
+  font-weight: 400;
+  padding: 0.5rem 1rem;
   text-decoration: none;
-  color: white;
-  margin: auto 2em;
+  text-shadow: 0.1rem 0.1rem 0.1rem var(--tertiary);
+  transition: transform 0.3s ease-in-out;
+
+  @media (max-width: 1024px) {
+    padding: 0.8rem 1rem;
+    gap: 1rem;
+    font-size: 0.8rem;
+  }
+}
+.link:hover {
+  transform: scale(1.1);
 }
 
-.butao{
+.butao {
   width: 100px;
   height: 32px;
   margin-right: 50px;
