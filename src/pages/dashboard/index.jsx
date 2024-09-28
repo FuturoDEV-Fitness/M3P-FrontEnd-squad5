@@ -1,28 +1,48 @@
+import { useEffect, useState } from "react";
 import { MapComponent } from "../../components/Leaflet";
+import CardLista from "../../components/CardLista";
 import styles from "./index.module.css";
+import { GetLocations } from "../../services/Locais";
 
 function DashBoard() {
+  const [locais, setLocais] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLocais = async () => {
+      try {
+        const response = await GetLocations();
+        setLocais(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log("Erro ao buscar locais:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchLocais();
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.mapContainer}>
         <MapComponent />
         <div className={styles.dashboardContainer}>
-          <span>Numero de locais</span>
-          <span>Numero de usuarios</span>
-          <span>Seus locais cadastrados </span>
+          <span>Número de locais: {locais.length}</span>
+          <span>Número de usuarios: {locais.length}</span>
+          <span>Seus locais: {locais.length}</span>
         </div>
       </div>
-      <div className={styles.cardsContainer}>
-        <div>Card 1</div>
-        <div>Card 2</div>
-        <div>Card 3</div>
-        <div>Card 4</div>
-        <div>Card 5</div>
-        <div>Card 6</div>
-        <div>Card 7</div>
-        <div>Card 8</div>
-        <div>Card 9</div>
-      </div>
+
+      {loading ? (
+        <p>Carregando locais</p>
+      ) : (
+        <div className={styles.cardsContainer}>
+          {locais.map((local, index) => (
+            <CardLista key={index} listalocais={local} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
