@@ -109,10 +109,7 @@
       "estado": "SC",
       "latitude": "-27.60782774761778",
       "longitude": "-48.46615213745826",
-      "praticasEsportivas": [
-        "Tênis",
-        "Natação"
-      ],
+      "praticasEsportivas": ["Tênis", "Natação"],
       "user_id": 1
     },
     {
@@ -126,10 +123,7 @@
       "estado": "Parisienses",
       "latitude": "48.86388900000",
       "longitude": "2.32611100000",
-      "praticasEsportivas": [
-        "Musculação",
-        "Futebol"
-      ],
+      "praticasEsportivas": ["Musculação", "Futebol"],
       "user_id": 2
     },
     {
@@ -143,11 +137,7 @@
       "estado": "SP",
       "latitude": "-23.586521476591",
       "longitude": "-46.657944776719646",
-      "praticasEsportivas": [
-        "Musculação",
-        "Corrida",
-        "Outros"
-      ],
+      "praticasEsportivas": ["Musculação", "Corrida", "Outros"],
       "user_id": 5
     },
     {
@@ -160,11 +150,7 @@
       "estado": "Santa Catarina",
       "latitude": "-27.5958836",
       "longitude": "-48.5499792",
-      "praticasEsportivas": [
-        "Musculação",
-        "Natação",
-        "Vôlei"
-      ],
+      "praticasEsportivas": ["Musculação", "Natação", "Vôlei"],
       "id": 4
     }
   ]
