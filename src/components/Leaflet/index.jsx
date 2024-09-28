@@ -3,39 +3,18 @@ import "leaflet/dist/leaflet.css";
 import { Icon, divIcon, point } from "leaflet";
 import { TileLayer, Marker, MapContainer, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GetLocations } from "../../services/Locais";
 
-const locaisPreenchidos = [
-  {
-    name: "Local 1",
-    location: "Rua Exemplo, 123",
-    coordinates: { latitude: "-23.55052", longitude: "-46.6333" },
-    sports_types: [
-      { name: "Futebol", hasOption: true },
-      { name: "Basquete", hasOption: false },
-    ],
-    description: "Local para atividades esportivas ao ar livre",
-  },
-  {
-    name: "Local 2",
-    location: "Avenida Teste, 456",
-    coordinates: { latitude: "-23.5511", longitude: "-46.6344" },
-    sports_types: [
-      { name: "Tênis", hasOption: true },
-      { name: "Vôlei", hasOption: true },
-    ],
-    description: "Quadra de tênis e vôlei",
-  },
-];
-
 export const MapComponent = () => {
+  const [locais, setLocais] = useState([]);
+
   useEffect(() => {
-    const testLocais = async () => {
-      const data = GetLocations();
-      console.log(data);
+    const fetchLocais = async () => {
+      const data = await GetLocations();
+      setLocais(data?.data || []); // Verifique se os dados são retornados corretamente
     };
-    testLocais();
+    fetchLocais();
   }, []);
 
   const customIcon = new Icon({
@@ -64,29 +43,24 @@ export const MapComponent = () => {
         chunkedLoading
         iconCreateFunction={createClusterCustomIcon}
       >
-        {locaisPreenchidos.map((local, index) => (
+        {locais.map((local, index) => (
           <Marker
-            position={[
-              Number(local.coordinates.latitude),
-              Number(local.coordinates.longitude),
-            ]}
+            position={[Number(local.latitude), Number(local.longitude)]}
             key={index}
             icon={customIcon}
           >
             <Popup>
               <div className={styles.popupContainer}>
-                <h2 className={styles.popupTitle}>{local.name}</h2>
-                <span className={styles.popupSpan}>{local.location}</span>
+                <h2 className={styles.popupTitle}>{local.nomeLocal}</h2>
+                <span className={styles.popupSpan}>{local.endereco}</span>
                 <div className={styles.popupGrid}>
-                  {local.sports_types
-                    .filter((sport) => sport.hasOption)
-                    .map((sport, index) => (
-                      <span className={styles.popupSportType} key={index}>
-                        {sport.name}
-                      </span>
-                    ))}
+                  {local.praticasEsportivas?.map((sport, index) => (
+                    <span className={styles.popupSportType} key={index}>
+                      {sport}
+                    </span>
+                  ))}
                 </div>
-                <span className={styles.popupSpan}>{local.description}</span>
+                <span className={styles.popupSpan}>{local.descricaoLocal}</span>
               </div>
             </Popup>
           </Marker>
