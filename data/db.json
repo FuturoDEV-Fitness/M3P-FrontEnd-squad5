@@ -1,7 +1,7 @@
 {
   "usuarios": [
     {
-      "id": "1",
+      "id": 1,
       "nome": "Ruan Vinicius",
       "sexo": "masculino",
       "cpf": "42326868005",
@@ -17,7 +17,7 @@
       "numero": "781"
     },
     {
-      "id": "2",
+      "id": 2,
       "nome": "Anthony Aragão",
       "sexo": "masculino",
       "cpf": "49060269071",
@@ -33,7 +33,7 @@
       "numero": "204"
     },
     {
-      "id": "3",
+      "id": 3,
       "nome": "Thales Raimundo das Neves",
       "sexo": "masculino",
       "cpf": "98756743234",
@@ -49,7 +49,7 @@
       "numero": "108"
     },
     {
-      "id": "4",
+      "id": 4,
       "nome": "Augusta Levi Sales",
       "sexo": "feminino",
       "cpf": "54673832145",
@@ -65,7 +65,7 @@
       "numero": "984"
     },
     {
-      "id": "5",
+      "id": 5,
       "email": "marcelo@marcelo",
       "senha": "123456",
       "nome": "feio",
@@ -81,7 +81,7 @@
       "numero": "111"
     },
     {
-      "id": "d601",
+      "id": 6,
       "email": "ana@julia.com.br",
       "senha": "654321",
       "nome": "Ana Julia",
@@ -99,7 +99,7 @@
   ],
   "listaLocais": [
     {
-      "id": "1",
+      "id": 1,
       "nomeLocal": "Ponta do Pitoco",
       "descricaoLocal": "Área contornando a lagoa com gramado, deck de madeira, bancos",
       "cep": "88666666",
@@ -109,14 +109,11 @@
       "estado": "SC",
       "latitude": "-27.60782774761778",
       "longitude": "-48.46615213745826",
-      "praticasEsportivas": [
-        "caminhada",
-        "skate"
-      ],
-      "idCadastrante": "1"
+      "praticasEsportivas": ["Tênis", "Natação"],
+      "user_id": 1
     },
     {
-      "id": "2",
+      "id": 2,
       "nomeLocal": "Jardin des Tuilerie",
       "descricaoLocal": "Je ne parlê française",
       "cep": "12345678",
@@ -126,14 +123,11 @@
       "estado": "Parisienses",
       "latitude": "48.86388900000",
       "longitude": "2.32611100000",
-      "praticasEsportivas": [
-        "esportes coletivos",
-        "surf"
-      ],
-      "idCadastrante": "32"
+      "praticasEsportivas": ["Musculação", "Futebol"],
+      "user_id": 2
     },
     {
-      "id": "c0c3",
+      "id": 3,
       "nomeLocal": "Parque Ibirapuera",
       "descricaoLocal": "Local amplo, vegetação exuberante, áreas amplas para esportes coletivos e práticas individuais e reunião para diversos fins.",
       "cep": "04094050",
@@ -143,68 +137,21 @@
       "estado": "SP",
       "latitude": "-23.586521476591",
       "longitude": "-46.657944776719646",
-      "praticasEsportivas": [
-        "caminhada",
-        "corrida",
-        "musculação",
-        "skate",
-        "esportes coletivos"
-      ],
-      "idCadastrante": "5"
+      "praticasEsportivas": ["Musculação", "Corrida", "Outros"],
+      "user_id": 5
     },
     {
-      "id": "1712",
-      "nomeLocal": "Parque Moacyr Scliar",
-      "descricaoLocal": "também chamado Parque do Gasômetro, é um parque urbano localizado no Centro Histórico de Porto Alegre, às margens do Lago Guaíba. Com 1,3 quilômetros de extensão",
-      "cep": "90010283",
-      "endereco": "Rua Duque de Caxias",
-      "bairro": "Centro Histórico",
-      "cidade": "Porto Alegre",
-      "estado": "RS",
-      "latitude": "-30.03779603988146",
-      "longitude": "-51.2417343614829",
-      "praticasEsportivas": [
-        "caminhada",
-        "corrida",
-        "esportes coletivos"
-      ],
-      "idCadastrante": "4"
-    },
-    {
-      "id": "197f",
-      "nomeLocal": "Quadras Poliesportivas Beira Mar Norte",
-      "descricaoLocal": "Quadras de areia para prática de beach tennis, volei e academia, além de ciclovia e área de corrida e caminha",
-      "cep": "88010400",
-      "endereco": "Praça Quinze de Novembro",
+      "nomeLocal": "asfffffffffffffffffffffffffffffffffffff",
+      "descricaoLocal": "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "cep": "88010010",
+      "endereco": "Rua Trajano",
       "bairro": "Centro",
       "cidade": "Florianópolis",
-      "estado": "SC",
-      "latitude": "-27.584413778358503",
-      "longitude": "-48.54753204071557",
-      "praticasEsportivas": [
-        "caminhada",
-        "corrida",
-        "musculação",
-        "esportes coletivos"
-      ],
-      "idCadastrante": "d601"
-    },
-    {
-      "id": "cfa0",
-      "nomeLocal": "Pista de Skate da Trindade",
-      "descricaoLocal": "Um local com variedade de pistas para a prática de skate, patins e bicicleta. Além de espaço desfrutar sozinho ou em grupo.",
-      "cep": "88035005",
-      "endereco": "Rua Santa Mônica",
-      "bairro": "Santa Mônica",
-      "cidade": "Florianópolis",
-      "estado": "SC",
-      "latitude": "-27.589673450716738",
-      "longitude": "-48.516808015812906",
-      "praticasEsportivas": [
-        "caminhada",
-        "skate"
-      ],
-      "idCadastrante": "d601"
+      "estado": "Santa Catarina",
+      "latitude": "-27.5958836",
+      "longitude": "-48.5499792",
+      "praticasEsportivas": ["Musculação", "Natação", "Vôlei"],
+      "id": 4
     }
   ]
 }

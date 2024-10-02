@@ -1,0 +1,171 @@
+.form {
+  width: 60%;
+  border: none;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  background: var(--secondary);
+}
+
+@media (max-width: 1024px) {
+  .form {
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+  }
+}
+
+.loginForm {
+  width: 40%;
+  margin: 1rem;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  background: var(--secondary);
+}
+
+@media (max-width: 1024px) {
+  .loginForm {
+    width: 60%;
+  }
+}
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  justify-content: center;
+}
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.formColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .formColumn {
+    gap: 0.5rem;
+  }
+}
+
+.formRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  text-align: left;
+}
+@media (max-width: 1024px) {
+  .formRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+.formTitle {
+  color: var(--text);
+  text-align: center;
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .formTitle {
+    font-size: 1.5rem;
+  }
+}
+
+.formSubTitle {
+  color: var(--text);
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .formSubTitle {
+    font-size: 0.8rem;
+  }
+}
+
+.formLegend {
+  color: var(--accent);
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 1rem;
+  text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+  .formLegend {
+    font-size: 1rem;
+  }
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  padding: 1rem;
+  justify-content: space-around;
+}
+
+@media (max-width: 768px) {
+  .buttonWrapper {
+    gap: 1rem;
+  }
+}
+
+.search {
+  position: absolute;
+  bottom: 0.2rem;
+  left: 0.2rem;
+  z-index: 1000;
+  color: var(--text);
+}
+
+.styledLink {
+  display: flex;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0.1rem 0.1rem 0.2rem var(--tertiary);
+  transition: transform 0.3s ease-in-out;
+}
+
+.styledLink:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 1024px) {
+  .styledLink {
+    padding: 0.8rem 1rem;
+    gap: 1rem;
+  }
+}
