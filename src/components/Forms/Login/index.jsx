@@ -1,16 +1,17 @@
 // PaginaLogin.js
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { InputComponent } from "../../Input";
 import { ButtonComponent } from "../../Button";
 import styles from "../index.module.css";
 import { LoginContext } from "../../../context/LoginContext";
-import { axiosInstance } from "../../../helper/axiosInstance";
 import { setLocalStorage } from "../../../helper/LocalStorageInstance";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
 
 export const FormLoginComponent = () => {
   const { showRegister } = useContext(LoginContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const {
@@ -19,24 +20,17 @@ export const FormLoginComponent = () => {
     formState: { errors },
   } = useForm();
 
-  const login = async (data) => {
-    const user = await axiosInstance
-      .get(`usuarios?email=${data.email}`)
-      .then((res) => {
-        return res.data[0];
-      });
-
-    if (!user || user.senha !== data.senha) {
-      return alert("Email ou senha errado");
+  const submitLongin = async (data) => {
+    const loginBoolean = await login(data);
+    if (loginBoolean) {
+      navigate("/");
     }
-    setLocalStorage("user", user);
-    navigate("/");
   };
 
   return (
     <div className={styles.loginForm}>
       <h1 className={styles.formTitle}>Login</h1>
-      <form className={styles.formColumn} onSubmit={handleSubmit(login)}>
+      <form className={styles.formColumn} onSubmit={handleSubmit(submitLongin)}>
         <InputComponent
           label="Email"
           type="email"
