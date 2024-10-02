@@ -1,24 +1,33 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from "./index.module.css"
 import { useNavigate } from 'react-router-dom';
-import { LocaisContext } from '../../context/LocaisContext'
-import { GetLocations} from '../../services/Locais'
-import {ButtonComponent} from '../../components/Button'
+import { GetID, Delete } from '../../services/Locais'
+import { ButtonComponent } from '../../components/Button'
 
 
-export const PaginaLocais = ()=> {
-    const { locais, } = useContext(LocaisContext)
+function PaginaLocais(local_id) { //<--???
+    const { locais, setLocais } = useState([])
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    //aqui ou no context?
     useEffect(() => {
-        GetLocations(); //extrair dados???
-        //setLocais()
+
+        const fetchLocaisID = async () => {
+            try {
+                const response = await GetID();;
+                setLocais(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.log("Erro ao buscar locais do usuário:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchLocaisID();
+
     }, []);
 
-    function voltarCadastroLocais(id) {
-        setCadLocal(false)
-        setMostrarEdicaoLocal(true)
+    function paginaEditarLocais(id) {
         navigate(`/cadastro/${id}`);
     }
 
@@ -27,35 +36,32 @@ export const PaginaLocais = ()=> {
 
         <div className={styles.container}>
             <div className={styles.textual}>
-                <h1>Lista de Locais X</h1>
+                <h1>Seus Locais</h1>
             </div>
-            <div className={styles.containerRenderizador}>
 
-                {/* era pra ser um CARD */}
-                {Array.isArray(locais) && locais.length > 0 ? (
-                    locais.map(local => (
-                        <div key={local.id}>
-                            <h3>{local.nomeLocal}</h3>
-                            <p>{local.descricaoLocal}</p>
-                           
-                            <p>Práticas permitidas: {local.praticasEsportivas.map((praticaX, index) => (
-                                <span key={index}>{index == local.praticasEsportivas.length - 1 ? `${" "}${praticaX}.` :
-                                    `${" "}${praticaX},`}
-                                </span>
-                            ))}</p>
-                             <ButtonComponent 
-                            onClick={() => voltarCadastroLocais(local.id)}
-                            text='Editar'/>
-                            <ButtonComponent 
-                            onClick={() => apagarLocal(local.id)}
-                            text='Excluir'/>
-                        </div>
-                    ))
+            <div className={styles.containerRenderizador}> {/* ajustar com o padrão */}
+                {loading ? (
+                    <p>Carregando locais</p>
                 ) : (
-                    <p>Nenhum local disponível</p>
+                    <>
+                        <div className={styles.cardsContainer}>
+                            {locais.map((local, index) => (
+                                <CardLista key={index} listalocais={local} />
+                            ))}
+                        </div>
+                        <ButtonComponent
+                            onClick={() => paginaEditarLocais(locais.id)}
+                            text='Editar' />
+                        <ButtonComponent
+                            onClick={() => Delete(locais.id)}
+                            text='Excluir' />
+                    </>
                 )}
+
             </div>
-        </div >
+        </div>
+
     )
 }
 ;
+export default PaginaLocais

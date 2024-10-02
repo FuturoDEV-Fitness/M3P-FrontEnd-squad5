@@ -75,7 +75,7 @@ export const Store = async (data) => {
 
 export const Update = async (id, newData) => {
   await axiosInstance
-    .put(`locations/${id}`, newData)
+    .put(`listaLocais/${id}`, newData)
     .then(() => {
       return "Atualizado com sucesso";
     })
