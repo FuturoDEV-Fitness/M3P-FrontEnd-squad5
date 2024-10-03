@@ -3,18 +3,31 @@ import styles from "./index.module.css"
 import { useNavigate } from 'react-router-dom';
 import { GetID, Delete } from '../../services/Locais'
 import { ButtonComponent } from '../../components/Button'
+import { getLocalStorage } from '../../helper/LocalStorageInstance'
+import { AuthContext } from '../../context/AuthContext';
 
 
-function PaginaLocais(local_id) { //<--???
-    const { locais, setLocais } = useState([])
+function PaginaLocais() {
+    // LocaisContext??? 
+    const { isLogged, logout } = useContext(AuthContext)
+    // const [isLogged, setIsLogged] = useState(false);
+    const [locais, setLocais] = useState([])
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
 
         const fetchLocaisID = async () => {
+
+            const token = getLocalStorage('token');
+            if (!token) { //token.data.token???
+                logout()
+                //texto: "usuário não autenticado"
+                navigate('/login');
+                return
+            }
             try {
-                const response = await GetID();;
+                const response = await GetID(token);//jwtDecoded.id???
                 setLocais(response.data);
                 setLoading(false);
             } catch (error) {
@@ -25,12 +38,12 @@ function PaginaLocais(local_id) { //<--???
 
         fetchLocaisID();
 
-    }, []);
+    }, []);//[navigate]???
 
-    function paginaEditarLocais(id) {
-        navigate(`/cadastro/${id}`);
+    function goToEditLocal(local_id) {
+        
+        navigate(`/cadastro/${local_id}`);
     }
-
 
     return (
 
@@ -43,19 +56,25 @@ function PaginaLocais(local_id) { //<--???
                 {loading ? (
                     <p>Carregando locais</p>
                 ) : (
-                    <>
-                        <div className={styles.cardsContainer}>
-                            {locais.map((local, index) => (
+
+                    <div className={styles.cardsContainer}>
+                        {locais.map((local, index) => (
+                            <div key={local.id}>
                                 <CardLista key={index} listalocais={local} />
-                            ))}
-                        </div>
-                        <ButtonComponent
-                            onClick={() => paginaEditarLocais(locais.id)}
-                            text='Editar' />
-                        <ButtonComponent
-                            onClick={() => Delete(locais.id)}
-                            text='Excluir' />
-                    </>
+
+                                <ButtonComponent
+                                    onClick={() => goToEditLocal(local.id)}
+                                    text='Editar' />
+
+                                <ButtonComponent
+                                    onClick={() => Delete(local.id)}
+                                    text='Excluir' />
+                            </div>
+                        ))}
+
+                    </div>
+
+
                 )}
 
             </div>
