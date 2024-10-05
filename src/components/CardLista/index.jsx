@@ -1,10 +1,37 @@
 import styles from "./index.module.css";
-import { TileLayer, Marker, MapContainer, Popup } from "react-leaflet";
+import PropTypes from "prop-types";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
-import PropTypes from "prop-types";
+import { TileLayer, Marker, MapContainer, Popup } from "react-leaflet";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
+import { ButtonComponent } from "../Button";
+import { useNavigate } from "react-router-dom";
+import { LocaisContext } from "../../context/LocaisContext";
+import Swal from "sweetalert2";
 
 function CardLista({ listalocais }) {
+  const praticasEsportivas = listalocais?.praticas || [];
+  const praticasNomes = praticasEsportivas.flatMap((pratica) => pratica.nome);
+  const { user } = useContext(AuthContext);
+  const { deleteLocal } = useContext(LocaisContext);
+  const navigate = useNavigate();
+
+  const deleteFunction = async () => {
+    const result = await Swal.fire({
+      title: "Tem certeza?",
+      text: "Você não poderá reverter isso!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, deletar!",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      await deleteLocal(listalocais.id);
+    }
+  };
+
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
     iconSize: [38, 38],
@@ -12,67 +39,108 @@ function CardLista({ listalocais }) {
 
   return (
     <div className={styles.cardcontainer}>
-      <MapContainer
-        center={[Number(listalocais.latitude), Number(listalocais.longitude)]}
-        zoom={13}
-        className={styles.mapContainer}
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <Marker
-          position={[
-            Number(listalocais.latitude),
-            Number(listalocais.longitude),
-          ]}
-          icon={customIcon}
-        >
-          <Popup />
-        </Marker>
-      </MapContainer>
+      {!listalocais ? (
+        <h1>Carregando.....</h1>
+      ) : (
+        <>
+          {listalocais.latitude && listalocais.longitude ? (
+            <MapContainer
+              center={[
+                Number(listalocais.latitude),
+                Number(listalocais.longitude),
+              ]}
+              zoom={13}
+              className={styles.mapContainer}
+            >
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              <Marker
+                position={[
+                  Number(listalocais.latitude),
+                  Number(listalocais.longitude),
+                ]}
+                icon={customIcon}
+              >
+                <Popup>
+                  <div className={styles.popupContent}>
+                    <h2>{listalocais.nomeLocal}</h2>
+                    <p>{listalocais.descricaoLocal}</p>
+                  </div>
+                </Popup>
+              </Marker>
+            </MapContainer>
+          ) : (
+            <div className={styles.noMap}>Coordenadas não disponíveis</div>
+          )}
 
-      <div className={styles.topo}>
-        <h3>{listalocais.nomeLocal}</h3>
-        <p>{listalocais.descricaoLocal}</p>
-      </div>
+          <div className={styles.topo}>
+            <h3>{listalocais.nomeLocal}</h3>
+            <p>{listalocais.descricaoLocal}</p>
+          </div>
 
-      <div className={styles.endereco}>
-        <p>
-          <strong>Endereço:</strong> {listalocais.endereco}
-        </p>
-        <p>
-          <strong>Bairro:</strong> {listalocais.bairro}
-        </p>
-        <p>
-          <strong>Cidade:</strong> {listalocais.cidade}
-        </p>
-        <p>
-          <strong>Estado:</strong> {listalocais.estado}
-        </p>
-      </div>
+          <div className={styles.endereco}>
+            <p>
+              <strong>Endereço:</strong> {listalocais.endereco}
+            </p>
+            <p>
+              <strong>Bairro:</strong> {listalocais.bairro}
+            </p>
+            <p>
+              <strong>Cidade:</strong> {listalocais.cidade}
+            </p>
+            <p>
+              <strong>Estado:</strong> {listalocais.estado}
+            </p>
+            <p>
+              <strong>Link:</strong> {listalocais.googleLink}
+            </p>
+          </div>
 
-      <div className={styles.latLong}>
-        <p>
-          <strong>Coordenadas:</strong> {listalocais.latitude} /{" "}
-          {listalocais.longitude}
-        </p>
-      </div>
+          <div className={styles.latLong}>
+            <p>
+              <strong>Coordenadas:</strong>{" "}
+              {`${listalocais.latitude}, ${listalocais.longitude}`}
+            </p>
+          </div>
 
-      <div className={styles.praticas}>
-        <p>
-          <strong>Práticas permitidas:</strong>
-          {listalocais.praticasEsportivas.map((praticaX, index) => (
-            <span key={index}>
-              {index === listalocais.praticasEsportivas.length - 1
-                ? ` ${praticaX}.`
-                : ` ${praticaX},`}
-            </span>
-          ))}
-        </p>
-      </div>
+          <div className={styles.praticas}>
+            <p>
+              <strong>Práticas permitidas:</strong>
+              {praticasNomes.length > 0 ? (
+                praticasNomes.map((praticaX, index) => (
+                  <span key={index}>
+                    {index === praticasNomes.length - 1
+                      ? ` ${praticaX}.`
+                      : ` ${praticaX},`}
+                  </span>
+                ))
+              ) : (
+                <span> Nenhuma prática disponível.</span>
+              )}
+            </p>
+          </div>
+          {user && user.id === listalocais.id_usuario ? (
+            <div>
+              <ButtonComponent
+                variant="contained"
+                type="button"
+                text="Editar"
+                preset="edit"
+                onClick={() => navigate(`/cadastro/${listalocais.id}`)}
+              />
+              <ButtonComponent
+                variant="contained"
+                type="button"
+                text="Deletar"
+                preset="delete"
+                onClick={deleteFunction}
+              />
+            </div>
+          ) : null}
+        </>
+      )}
     </div>
   );
 }
-
-export default CardLista;
 
 CardLista.propTypes = {
   listalocais: PropTypes.shape({
@@ -82,10 +150,19 @@ CardLista.propTypes = {
     bairro: PropTypes.string.isRequired,
     cidade: PropTypes.string.isRequired,
     estado: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    id_usuario: PropTypes.number.isRequired,
+    googleLink: PropTypes.string,
     latitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       .isRequired,
     longitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       .isRequired,
-    praticasEsportivas: PropTypes.arrayOf(PropTypes.string).isRequired,
+    praticas: PropTypes.arrayOf(
+      PropTypes.shape({
+        nome: PropTypes.arrayOf(PropTypes.string).isRequired, // Esperando um array de strings
+      })
+    ).isRequired,
   }).isRequired,
 };
+
+export default CardLista;

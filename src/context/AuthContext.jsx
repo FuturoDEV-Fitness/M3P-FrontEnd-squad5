@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }) => {
     setIsLogged(false);
     setUser(null);
     deleteLocalStorage("token");
+    window.location.href = "/";
   };
 
   return (

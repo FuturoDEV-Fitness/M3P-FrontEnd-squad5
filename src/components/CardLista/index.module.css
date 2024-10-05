@@ -1,38 +1,44 @@
-.cardcontainer{
-    display: flex;
-    flex-direction: column;
-    box-shadow: .2em .2em .8em rgb(65, 14, 52);
-    height: 18em;
-    margin: 10px 10px;
-    background-color: white;
-    width: 400px;
-    font-size: 0.8em;
-    padding: 10px 15px;
-    word-wrap: break-word;
-    overflow-y: auto; 
-    border-radius: 4px;
-}
-.cardcontainer span{
-    font-weight: bolder;
+.cardcontainer {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0.2em 0.2em 0.8em rgb(65, 14, 52);
+  height: 20em;
+  margin: 10px 10px;
+  background-color: white;
+  width: 400px;
+  font-size: 0.8em;
+  padding: 10px 15px;
+  word-wrap: break-word;
+  overflow-y: auto;
+  border-radius: 4px;
 }
 
-.topo{
-    display: flex;
-    flex-direction: column;
-    text-align: justify;
-    justify-content: center;
-    align-items: center;
+.cardcontainer span {
+  font-weight: bolder;
 }
 
-.latLong{
-    display: flex;
-    justify-content: center;
+.topo {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+}
+
+.latLong {
+  display: flex;
+  justify-content: center;
 }
 
 .praticas span {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .praticas p {
-    font-weight: normal;
+  font-weight: normal;
+}
+
+.mapContainer {
+  height: 50%;
+  width: 100%;
 }

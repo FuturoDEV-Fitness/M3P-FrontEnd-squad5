@@ -5,7 +5,6 @@ import { InputComponent } from "../../Input";
 import { ButtonComponent } from "../../Button";
 import styles from "../index.module.css";
 import { LoginContext } from "../../../context/LoginContext";
-import { setLocalStorage } from "../../../helper/LocalStorageInstance";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 
@@ -25,6 +24,9 @@ export const FormLoginComponent = () => {
     if (loginBoolean) {
       navigate("/");
     }
+  };
+  const home = () => {
+    navigate("/");
   };
 
   return (
@@ -60,6 +62,9 @@ export const FormLoginComponent = () => {
         />
         <span className={styles.styledLink} onClick={showRegister}>
           Não possui conta? Clique aqui para criar uma!
+        </span>
+        <span className={styles.styledLink} onClick={home}>
+          Voltar para o Dashboard?
         </span>
         <ButtonComponent variant="outlined" type="submit" text="Login" />
       </form>

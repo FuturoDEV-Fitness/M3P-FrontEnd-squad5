@@ -3,19 +3,11 @@ import "leaflet/dist/leaflet.css";
 import { Icon, divIcon, point } from "leaflet";
 import { TileLayer, Marker, MapContainer, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { useEffect, useState } from "react";
-import { GetLocations } from "../../services/Locais";
+import { useContext } from "react";
+import { LocaisContext } from "../../context/LocaisContext";
 
 export const MapComponent = () => {
-  const [locais, setLocais] = useState([]);
-
-  useEffect(() => {
-    const fetchLocais = async () => {
-      const data = await GetLocations();
-      setLocais(data?.data || []); // Verifique se os dados são retornados corretamente
-    };
-    fetchLocais();
-  }, []);
+  const { locais } = useContext(LocaisContext);
 
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
