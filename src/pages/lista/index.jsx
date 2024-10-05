@@ -2,73 +2,73 @@ import { UsuariosContext } from '../../context/UsuariosContext';
 import { useContext, useEffect, useState } from 'react';
 import styles from "./index.module.css"
 import { useNavigate } from 'react-router-dom';
-import { func } from 'prop-types';
+import { GetID, Delete } from '../../services/Locais'
+import { ButtonComponent } from '../../components/Button'
+import { getLocalStorage } from '../../helper/LocalStorageInstance'
+import { AuthContext } from '../../context/AuthContext';
 
 
 function PaginaLista() {
-
-    const { lerLocais, setCadLocal, setMostrarEdicaoLocal, listalocais, apagarLocal } = useContext(UsuariosContext);
-
-
-
+    // LocaisContext??? 
+    const { isLogged, logout } = useContext(AuthContext)
+    // const [isLogged, setIsLogged] = useState(false);
+    const [locais, setLocais] = useState([])
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        lerLocais(); // Carregar locais ao montar a página
-    }, []);
+     
+        const fetchLocaisID = async () => {
+
+            const token = getLocalStorage('token');
+            if (!token) { //token.data.token???
+                logout()
+                console.log("texto: usuário não autenticado");
+                navigate('/login');
+                return
+            }
+            try {
+                const response = await GetID(token.id);//jwtDecoded.id???
+                setLocais(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.log("Erro ao buscar locais do usuário:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchLocaisID();
+    }, []);//[navigate]???
 
 
 
-    function voltarCadastroLocais(id) {
-        setCadLocal(false)
-        setMostrarEdicaoLocal(true)
-        navigate(`/cadastro/${id}`);
-        //guardar o do local
-        //faz lerLocaisporId(id) para preencher o formulário com informações do usuario ativo
+    function goToEditLocal(local_id) {
+        navigate(`/cadastro/${local_id}`);
     }
 
 
     return (
 
         <div className={styles.container}>
-
-
             <div className={styles.textual}>
-
-                <h1>Lista de Locais X</h1>
+                <h1>Seus Locais</h1>
             </div>
-
-
-            <div className={styles.containerRenderizador}>
-                {Array.isArray(listalocais) && listalocais.length > 0 ? (
-                    listalocais.map(local => (
-                        <div key={local.id}>
-                            <h3>Local: {local.nomeLocal}</h3>
-                            <p>Descrição: {local.descricaoLocal}</p>
-                            <p>local: {local.endereco}</p>
-                            <p>Bairro: {local.bairro}</p>
-                            <p>Cidade: {local.cidade}</p>
-                            <p>Estado: {local.estado}</p>
-                            <p>Latitude: {local.latitude}</p>
-                            <p>Longitude: {local.longitude}</p>
-
-                            <p>Práticas permitidas: {local.praticasEsportivas.map((praticaX, index) => (
-                                <span key={index}>{index == local.praticasEsportivas.length - 1 ? `${" "}${praticaX}.` :
-                                    `${" "}${praticaX},`}
-                                </span>
-                            ))}</p>
-                            <button onClick={() => voltarCadastroLocais(local.id)}>Editar</button>
-                            <button onClick={() => apagarLocal(local.id)}>Excluir</button>
-                        </div>
-                    ))
+            <div className={styles.containerRenderizador}> {/* ajustar com o padrão */}
+            {loading ? (
+                    <p>Carregando locais</p>
                 ) : (
-                    <p>Nenhum local disponível</p>
+
+                    <div className={styles.cardsContainer}>
+                        {locais.map((local, index) => (
+                            <div key={local.id}>
+                                <CardLista key={index} listalocais={local} />
+                            </div>
+                        ))}
+
+                    </div>
                 )}
             </div>
         </div >
-
-
-
 
     )
 }
