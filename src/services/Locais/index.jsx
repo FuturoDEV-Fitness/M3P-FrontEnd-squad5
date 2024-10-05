@@ -1,9 +1,10 @@
 import { axiosInstance } from "../../helper/axiosInstance";
+import { getLocalStorage } from "../../helper/LocalStorageInstance";
 
 export const GetLocations = async () => {
   try {
     const data = await axiosInstance
-      .get("listaLocais")
+      .get("local")
       .then((res) => {
         return res;
       })
@@ -19,9 +20,11 @@ export const GetLocations = async () => {
 export const GetID = async (id) => {
   try {
     const data = await axiosInstance
-      .get(`listaLocais/${id}`)
+      .get(`local/${id}`, {
+        headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
+      })
       .then((res) => {
-        return res.data;
+        return res;
       })
       .catch((e) => console.log(e));
 
@@ -31,10 +34,11 @@ export const GetID = async (id) => {
   }
 };
 
+/*
 export const GetByUserId = async (userId) => {
   try {
     const data = await axiosInstance
-      .get(`listaLocais?user_id=${userId}`)
+      .get(`local?user_id=${userId}`)
       .then((r) => {
         return r.data;
       })
@@ -44,25 +48,28 @@ export const GetByUserId = async (userId) => {
   } catch (error) {
     console.log(error);
   }
-};
+};*/
 
 export const Delete = async (id) => {
-  await axiosInstance
-    .delete(`listaLocais/${id}`)
-    .then(() => {
-      return "Local removido com sucesso";
-    })
-    .catch((err) => {
-      console.log("err: ", err.response.data);
+  try {
+    const res = await axiosInstance.delete(`local/${id}`, {
+      headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
     });
+    return res;
+  } catch (err) {
+    console.log("Erro ao deletar: ", err.response?.data || err.message);
+    throw err;
+  }
 };
 
 export const Store = async (data) => {
   try {
     await axiosInstance
-      .post(`listaLocais`, data)
-      .then(async () => {
-        return "Local cadastrado com sucesso";
+      .post(`local`, data, {
+        headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
+      })
+      .then((res) => {
+        return res;
       })
       .catch((err) => {
         console.log("err: ", err.response.data);
@@ -75,9 +82,11 @@ export const Store = async (data) => {
 
 export const Update = async (id, newData) => {
   await axiosInstance
-    .put(`locations/${id}`, newData)
-    .then(() => {
-      return "Atualizado com sucesso";
+    .put(`local/${id}`, newData, {
+      headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
+    })
+    .then((res) => {
+      return res;
     })
     .catch((err) => {
       console.log("err: ", err);

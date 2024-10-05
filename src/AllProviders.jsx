@@ -5,17 +5,20 @@ import { LocaisContextProvider } from "./context/LocaisContext";
 import PropTypes from "prop-types";
 import { LoginContextProvider } from "./context/LoginContext";
 import { AuthProvider } from "./context/AuthContext";
+import { DashboardContextProvider } from "./context/DashboardContext";
 
 export const AllProviders = ({ children }) => {
   return (
     <UsuariosContextProvider>
       <LocaisContextProvider>
-        <AuthProvider>
-          <LoginContextProvider>
-            <ToastContainer />
-            {children}
-          </LoginContextProvider>
-        </AuthProvider>
+        <DashboardContextProvider>
+          <AuthProvider>
+            <LoginContextProvider>
+              <ToastContainer />
+              {children}
+            </LoginContextProvider>
+          </AuthProvider>
+        </DashboardContextProvider>
       </LocaisContextProvider>
     </UsuariosContextProvider>
   );

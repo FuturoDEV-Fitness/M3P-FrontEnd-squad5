@@ -13,11 +13,29 @@
   display: flex;
   flex-direction: column;
 }
-
 .dashboardContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--primary);
+  box-shadow: 0 4px 8px var(--accent);
+  margin-bottom: 1rem;
+}
+
+.dashboardItem {
+  font-size: 1.5rem;
+  color: var(--text);
+  font-weight: 500;
+  margin: 0 1rem;
+}
+
+.loadingText {
+  font-size: 1rem;
+  color: var(--secondary);
+  font-style: italic;
+  margin: 0;
 }
 
 .cardsContainer {

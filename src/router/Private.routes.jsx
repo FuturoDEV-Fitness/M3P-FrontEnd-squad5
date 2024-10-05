@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
-import { getLocalStorage } from "../helper/LocalStorageInstance";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export const PrivateRoutes = ({ children }) => {
-  const usuarioLogado = getLocalStorage("user");
-  return usuarioLogado ? children : <Navigate to="/login" />;
+  const { isLogged } = useContext(AuthContext);
+  return isLogged ? children : <Navigate to="/login" />;
 };
 
 PrivateRoutes.propTypes = {

@@ -1,41 +1,51 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { MapComponent } from "../../components/Leaflet";
 import CardLista from "../../components/CardLista";
 import styles from "./index.module.css";
-import { GetLocations } from "../../services/Locais";
+import GroupIcon from "@mui/icons-material/Group";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PersonPinCircleIcon from "@mui/icons-material/PersonPinCircle";
+
+import { LocaisContext } from "../../context/LocaisContext";
+import { DashboardContext } from "../../context/DashboardContext";
+import { AuthContext } from "../../context/AuthContext";
 
 function DashBoard() {
-  const [locais, setLocais] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchLocais = async () => {
-      try {
-        const response = await GetLocations();
-        setLocais(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.log("Erro ao buscar locais:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchLocais();
-  }, []);
+  const { locais } = useContext(LocaisContext);
+  const { isLogged } = useContext(AuthContext);
+  const { dashboardData, loading } = useContext(DashboardContext);
+  const loadingLocais = locais.length === 0;
 
   return (
     <div className={styles.container}>
       <div className={styles.mapContainer}>
-        <MapComponent />
+        <MapComponent locais={locais} />
         <div className={styles.dashboardContainer}>
-          <span>Número de locais: {locais.length}</span>
-          <span>Número de usuarios: {locais.length}</span>
-          <span>Seus locais: {locais.length}</span>
+          {loading ? (
+            <p className={styles.loadingText}>
+              Carregando dados do dashboard...
+            </p>
+          ) : (
+            <>
+              <span className={styles.dashboardItem}>
+                <LocationOnIcon /> Número de locais: {dashboardData.locais}
+              </span>
+              <span className={styles.dashboardItem}>
+                <GroupIcon /> Número de usuários: {dashboardData.usuarios}
+              </span>
+              {isLogged && (
+                <span className={styles.dashboardItem}>
+                  <PersonPinCircleIcon /> Seus locais:
+                  {dashboardData.locaisUsuario}
+                </span>
+              )}
+            </>
+          )}
         </div>
       </div>
 
-      {loading ? (
-        <p>Carregando locais</p>
+      {loadingLocais ? (
+        <p className={styles.loadingText}>Carregando locais...</p>
       ) : (
         <div className={styles.cardsContainer}>
           {locais.map((local, index) => (

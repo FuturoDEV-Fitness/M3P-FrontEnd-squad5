@@ -1,9 +1,10 @@
 import { axiosInstance } from "../../helper/axiosInstance";
+import { getLocalStorage } from "../../helper/LocalStorageInstance";
 
 export const lerUsuarios = async () => {
   try {
     const data = await axiosInstance
-      .get("/usuarios")
+      .get("/usuario")
       .then((response) => {
         return response.data;
       })
@@ -37,8 +38,10 @@ export const lerUsuarios = async () => {
 
 export const lerUsuariosPorId = async (id) => {
   try {
-    const response = await axiosInstance.get(`/usuarios/${id}`);
-    return response.data;
+    const response = await axiosInstance.get(`/usuarios/${id}`, {
+      headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
+    });
+    return response;
   } catch (error) {
     console.error("Erro ao buscar usuário por ID:", error);
     throw error;
@@ -48,9 +51,9 @@ export const lerUsuariosPorId = async (id) => {
 // Função para cadastrar um novo usuário
 export const cadastrarUsuario = async (novoUsuario) => {
   await axiosInstance
-    .post(`/users`, novoUsuario)
-    .then(() => {
-      return "Usuário cadastrado com sucesso";
+    .post(`/usuario`, novoUsuario)
+    .then((res) => {
+      return res;
     })
     .catch((err) => {
       console.log("err: ", err.response.data);
@@ -61,8 +64,13 @@ export const cadastrarUsuario = async (novoUsuario) => {
 // Função para deletar um usuário pelo ID
 export const deletarUsuario = async (id) => {
   try {
-    await axiosInstance.delete(`usuarios/${id}`);
-    return "Usuário removido com sucesso";
+    await axiosInstance
+      .delete(`usuario/${id}`, {
+        headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
+      })
+      .then((res) => {
+        return res;
+      });
   } catch (error) {
     console.log("Erro ao deletar usuário: ", error);
   }
@@ -71,9 +79,13 @@ export const deletarUsuario = async (id) => {
 // Função para editar os dados de um usuário
 export const editarUsuario = async (id, dadosUsuario) => {
   try {
-    await axiosInstance.put(`usuarios/${id}`, dadosUsuario);
-    alert("Usuário atualizado com sucesso!");
-    await lerUsuarios(); //Atualiza a lista de usuários???
+    await axiosInstance
+      .put(`usuario/${id}`, dadosUsuario, {
+        headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
+      })
+      .then((res) => {
+        return res;
+      });
   } catch (error) {
     console.log("Erro ao atualizar usuário: ", error);
     alert("Erro ao atualizar usuário!");
