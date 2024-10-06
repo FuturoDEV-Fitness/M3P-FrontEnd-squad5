@@ -14,7 +14,7 @@
     margin-bottom: 0px;
     width: 600px;
     height: 100px;
-    color: rgba(73, 66, 66, 0.87);
+    color: var(--text);
    
   }
 

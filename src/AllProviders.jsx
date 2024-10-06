@@ -10,16 +10,18 @@ import { DashboardContextProvider } from "./context/DashboardContext";
 export const AllProviders = ({ children }) => {
   return (
     <UsuariosContextProvider>
+       <DashboardContextProvider>
       <LocaisContextProvider>
-        <DashboardContextProvider>
+       
           <AuthProvider>
             <LoginContextProvider>
               <ToastContainer />
               {children}
             </LoginContextProvider>
           </AuthProvider>
-        </DashboardContextProvider>
+       
       </LocaisContextProvider>
+      </DashboardContextProvider>
     </UsuariosContextProvider>
   );
 };

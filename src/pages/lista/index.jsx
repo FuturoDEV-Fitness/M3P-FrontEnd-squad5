@@ -6,9 +6,11 @@ import { getLocalStorage } from '../../helper/LocalStorageInstance'
 import { AuthContext } from '../../context/AuthContext';
 import { LocaisContext } from '../../context/LocaisContext';
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
+import CardLista from '../../components/CardLista';
 
 function PaginaLista() {
-    const { usuarioLocais, setUsuarioLocais } = useContext(LocaisContext)
+    const { usuarioLocais, setUsuarioLocais } = useContext(LocaisContext);
     const { isLogged, logout } = useContext(AuthContext)
     // const [isLogged, setIsLogged] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -18,16 +20,20 @@ function PaginaLista() {
     const fetchLocaisID = async () => {
 
         try {
+            console.log("testando");
             const token = getLocalStorage('token');
-            if (!token) { //token.data.token???
+            if (!token) { 
                 logout()
                 console.log("texto: usuário não autenticado");
                 navigate('/login');
                 return
             }
-            const response = await GetID(token.id);//jwtDecoded.id???
-            if (response.status === 200) {
-                setUsuarioLocais(response.data);
+            const jwtDecoded = jwtDecode(token);
+            const userId = jwtDecoded.id;
+            const response = await GetID(userId);
+            if (response && response.status === 200) {
+                console.log("Dados:", response.data);
+                setUsuarioLocais([response.data]);
                 setLoading(false);
             } else {
                 toast.error(response.data.mensagem, {
