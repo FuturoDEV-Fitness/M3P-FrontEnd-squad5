@@ -98,9 +98,16 @@ function CardLista({ listalocais }) {
               <p>
                 <strong>Endereço:</strong> {listalocais.endereco}, {listalocais.bairro}, {listalocais.cidade} ({listalocais.estado})
               </p>
-              <p>
-                <strong>Link:</strong> {listalocais.googleLink}
-              </p>
+              
+               <a
+                  href={listalocais.googleLink}
+                  target="_blank" // Abre o link em uma nova aba
+                  rel="noopener noreferrer" // Recomendado por segurança
+                >
+                  Link GoogleMaps
+                </a>
+                
+              
             </div>
             {user && user.id === listalocais.id_usuario ? (
               <div>
@@ -120,34 +127,34 @@ function CardLista({ listalocais }) {
                 />
               </div>
             ) : null}
-            </div>
-          </>
+          </div>
+        </>
       )}
-        </div>
-      );
+    </div>
+  );
 }
 
-      CardLista.propTypes = {
-        listalocais: PropTypes.shape({
-        nomeLocal: PropTypes.string.isRequired,
-      descricaoLocal: PropTypes.string.isRequired,
-      endereco: PropTypes.string.isRequired,
-      bairro: PropTypes.string.isRequired,
-      cidade: PropTypes.string.isRequired,
-      estado: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      id_usuario: PropTypes.number.isRequired,
-      googleLink: PropTypes.string,
-      latitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+CardLista.propTypes = {
+  listalocais: PropTypes.shape({
+    nomeLocal: PropTypes.string.isRequired,
+    descricaoLocal: PropTypes.string.isRequired,
+    endereco: PropTypes.string.isRequired,
+    bairro: PropTypes.string.isRequired,
+    cidade: PropTypes.string.isRequired,
+    estado: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    id_usuario: PropTypes.number.isRequired,
+    googleLink: PropTypes.string,
+    latitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       .isRequired,
-      longitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    longitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       .isRequired,
-      praticas: PropTypes.arrayOf(
+    praticas: PropTypes.arrayOf(
       PropTypes.shape({
         nome: PropTypes.arrayOf(PropTypes.string).isRequired, // Esperando um array de strings
       })
-      ).isRequired,
+    ).isRequired,
   }).isRequired,
 };
 
-      export default CardLista;
+export default CardLista;

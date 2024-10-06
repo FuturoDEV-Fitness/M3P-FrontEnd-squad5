@@ -56,6 +56,18 @@ padding: 4px;
 .endereco{
   font-size: 12px;
 }
+.endereco a{
+  font-weight: bolder;
+  color: inherit; 
+  text-decoration: none;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.endereco a:hover {
+  color: var(--tertiary);
+ 
+}
 
 .praticas{
   display: flex;
