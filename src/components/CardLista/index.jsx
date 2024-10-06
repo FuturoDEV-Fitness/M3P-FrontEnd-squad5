@@ -43,99 +43,91 @@ function CardLista({ listalocais }) {
         <h1>Carregando.....</h1>
       ) : (
         <>
-          {listalocais.latitude && listalocais.longitude ? (
-            <MapContainer
-              center={[
-                Number(listalocais.latitude),
-                Number(listalocais.longitude),
-              ]}
-              zoom={13}
-              className={styles.mapContainer}
-            >
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker
-                position={[
+          <div className={styles.map}>
+            {listalocais.latitude && listalocais.longitude ? (
+              <MapContainer
+                center={[
                   Number(listalocais.latitude),
                   Number(listalocais.longitude),
                 ]}
-                icon={customIcon}
+                zoom={13}
+                className={styles.mapContainer}
               >
-                <Popup>
-                  <div className={styles.popupContent}>
-                    <h2>{listalocais.nomeLocal}</h2>
-                    <p>{listalocais.descricaoLocal}</p>
-                  </div>
-                </Popup>
-              </Marker>
-            </MapContainer>
-          ) : (
-            <div className={styles.noMap}>Coordenadas não disponíveis</div>
-          )}
-
-          <div className={styles.topo}>
-            <h3>{listalocais.nomeLocal}</h3>
-            <p>{listalocais.descricaoLocal}</p>
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Marker
+                  position={[
+                    Number(listalocais.latitude),
+                    Number(listalocais.longitude),
+                  ]}
+                  icon={customIcon}
+                >
+                  <Popup>
+                    <div className={styles.popupContent}>
+                      <h2>{listalocais.nomeLocal}</h2>
+                      <p>{listalocais.descricaoLocal}</p>
+                    </div>
+                  </Popup>
+                </Marker>
+              </MapContainer>
+            ) : (
+              <div className={styles.noMap}>Coordenadas não disponíveis</div>
+            )}
           </div>
-
-          <div className={styles.endereco}>
-            <p>
-              <strong>Endereço:</strong> {listalocais.endereco}
-            </p>
-            <p>
-              <strong>Bairro:</strong> {listalocais.bairro}
-            </p>
-            <p>
-              <strong>Cidade:</strong> {listalocais.cidade}
-            </p>
-            <p>
-              <strong>Estado:</strong> {listalocais.estado}
-            </p>
-            <p>
-              <strong>Link:</strong> {listalocais.googleLink}
-            </p>
-          </div>
-
-          <div className={styles.latLong}>
-            <p>
-              <strong>Coordenadas:</strong>{" "}
-              {`${listalocais.latitude}, ${listalocais.longitude}`}
-            </p>
-          </div>
-
-          <div className={styles.praticas}>
-            <p>
-              <strong>Práticas permitidas:</strong>
-              {praticasNomes.length > 0 ? (
-                praticasNomes.map((praticaX, index) => (
-                  <span key={index}>
-                    {index === praticasNomes.length - 1
-                      ? ` ${praticaX}.`
-                      : ` ${praticaX},`}
-                  </span>
-                ))
-              ) : (
-                <span> Nenhuma prática disponível.</span>
-              )}
-            </p>
-          </div>
-          {user && user.id === listalocais.id_usuario ? (
-            <div>
-              <ButtonComponent
-                variant="contained"
-                type="button"
-                text="Editar"
-                preset="edit"
-                onClick={() => navigate(`/cadastro/${listalocais.id}`)}
-              />
-              <ButtonComponent
-                variant="contained"
-                type="button"
-                text="Deletar"
-                preset="delete"
-                onClick={deleteFunction}
-              />
+          <div className={styles.texto}>
+            <div className={styles.topo}>
+              <h3>{listalocais.nomeLocal}</h3>
+              <p>{listalocais.descricaoLocal}</p>
             </div>
-          ) : null}
+            <div className={styles.praticas}>
+              <p>
+                <strong>Práticas permitidas:</strong>
+                {praticasNomes.length > 0 ? (
+                  praticasNomes.map((praticaX, index) => (
+                    <span key={index}>
+                      {index === praticasNomes.length - 1
+                        ? ` ${praticaX}.`
+                        : ` ${praticaX},`}
+                    </span>
+                  ))
+                ) : (
+                  <span> Nenhuma prática disponível.</span>
+                )}
+              </p>
+            </div>
+            <div className={styles.endereco}>
+              <p>
+                <strong>Endereço:</strong> {listalocais.endereco}, {listalocais.bairro}, {listalocais.cidade} ({listalocais.estado})
+              </p>
+              
+               <a
+                  href={listalocais.googleLink}
+                  target="_blank" // Abre o link em uma nova aba
+                  rel="noopener noreferrer" // Recomendado por segurança
+                >
+                  Link GoogleMaps
+                </a>
+                
+              
+            </div>
+            {user && user.id === listalocais.id_usuario ? (
+              <div className={styles.botoes}>
+                <ButtonComponent
+                  variant="contained"
+                  type="button"
+                  text="Editar"
+                  preset="edit"
+                  onClick={() => navigate(`/cadastro/${listalocais.id}`)}
+                />
+                <ButtonComponent
+                  variant="contained"
+                  type="button"
+                  text="Deletar"
+                  preset="delete"
+                  onClick={deleteFunction}
+                />
+              </div>
+            ) : null}
+          </div>
         </>
       )}
     </div>

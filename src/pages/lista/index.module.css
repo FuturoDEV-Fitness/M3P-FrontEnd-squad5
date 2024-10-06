@@ -10,11 +10,11 @@
 }
 
 .textual {
-    margin-top: 80px;
+    margin-top: 60px;
     margin-bottom: 0px;
     width: 600px;
     height: 100px;
-    color: rgba(73, 66, 66, 0.87);
+    color: var(--text);
    
   }
 
@@ -25,21 +25,12 @@
     align-items: center;
     padding: 8px;
     gap: 1em;
-    background-color: #9d68c0;
-    width: 800px;
-    color: white;
+    background-color: var(--secondary);
+    width: 75%;
     font-size: 0.95em;
-    border-radius: 4px;
-    
-    
+    border-radius: 8px;
 }
-.containerRenderizador div{
-width: 600px;
-background-color: rgba(136, 129, 129, 0.87);
-padding: 25px;
-margin-top: 6px;
-margin-bottom: 6px;
-}
+
 .containerRenderizador h3, p, span{
 margin-top: 6px;
 text-align:justify;

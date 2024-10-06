@@ -12,7 +12,7 @@ export const ButtonComponent = ({
 }) => {
   const buttonStyle = {
     backgroundColor: preset === "delete" ? "var(--error)" : "var(--success)",
-    color: "var(--text)",
+    color: preset === "delete" ? "var(--background)" : "var(--text)",
   };
 
   return (
