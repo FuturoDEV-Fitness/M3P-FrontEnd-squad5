@@ -70,14 +70,14 @@ function PaginaLista() {
                     <p>Carregando locais</p>
                 ) : (
 
-                    <div className={styles.cardsContainer}>
+                     <div>
                         {usuarioLocais.map((local, index) => (
                             <div key={local.id}>
                                 <CardLista key={index} listalocais={local} />
                             </div>
                         ))}
 
-                    </div>
+                      </div> 
                 )}
             </div>
         </div >

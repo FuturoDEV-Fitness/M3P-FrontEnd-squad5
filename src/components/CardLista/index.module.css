@@ -6,7 +6,7 @@
   margin: 8px 8px;
   background-color: var(--primary);
   width: 400px;
-  padding: 4px;
+  padding: 2px;
   word-wrap: break-word;
   overflow-y: auto;
   border-radius: 8px;
@@ -85,7 +85,7 @@ padding: 4px;
 .botoes{
   display: flex; 
   justify-content: space-between;
-  height: 36px; 
+  height: 26px; 
   width: auto; 
   margin: 0;
 

@@ -110,7 +110,7 @@ function CardLista({ listalocais }) {
               
             </div>
             {user && user.id === listalocais.id_usuario ? (
-              <div>
+              <div className={styles.botoes}>
                 <ButtonComponent
                   variant="contained"
                   type="button"
