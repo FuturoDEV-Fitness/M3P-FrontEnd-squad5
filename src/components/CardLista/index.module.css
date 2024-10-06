@@ -2,21 +2,43 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0.2em 0.2em 0.8em rgb(65, 14, 52);
-  height: 20em;
-  margin: 10px 10px;
-  background-color: white;
+  height: 300px;
+  margin: 8px 8px;
+  background-color: var(--primary);
   width: 400px;
-  font-size: 0.8em;
-  padding: 10px 15px;
+  padding: 4px;
   word-wrap: break-word;
   overflow-y: auto;
-  border-radius: 4px;
+  border-radius: 8px;
+  color: var(--text);
+  gap: 0;
 }
 
 .cardcontainer span {
   font-weight: bolder;
 }
 
+.map{
+height: 50%;
+width: 100%;
+padding: 4px;
+}
+.mapContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.texto{
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  margin-top: 10px;
+  padding: 8px;
+}
 .topo {
   display: flex;
   flex-direction: column;
@@ -24,21 +46,36 @@
   justify-content: center;
   align-items: center;
 }
-
-.latLong {
-  display: flex;
-  justify-content: center;
+.topo h3{
+  font-size: 16px;
+}
+.topo p{
+  font-size: 12px;
 }
 
+.endereco{
+  font-size: 12px;
+}
+
+.praticas{
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  margin: 0 10px;
+  font-weight: bold;
+}
 .praticas span {
   font-weight: bold;
 }
+.botoes{
+  display: flex; 
+  justify-content: space-between;
+  height: 36px; 
+  width: auto; 
+  margin: 0;
 
-.praticas p {
-  font-weight: normal;
 }
 
-.mapContainer {
-  height: 50%;
-  width: 100%;
-}
