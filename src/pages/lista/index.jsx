@@ -5,15 +5,16 @@ import { GetID } from '../../services/Locais'
 import { getLocalStorage } from '../../helper/LocalStorageInstance'
 import { AuthContext } from '../../context/AuthContext';
 import { LocaisContext } from '../../context/LocaisContext';
+import { toast } from "react-toastify";
 
 function PaginaLista() {
-   const {usuarioLocais, setUsuarioLocais} = useContext(LocaisContext)
+    const { usuarioLocais, setUsuarioLocais } = useContext(LocaisContext)
     const { isLogged, logout } = useContext(AuthContext)
     // const [isLogged, setIsLogged] = useState(false);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    
+
     const fetchLocaisID = async () => {
 
         try {
@@ -24,17 +25,29 @@ function PaginaLista() {
                 navigate('/login');
                 return
             }
-
             const response = await GetID(token.id);//jwtDecoded.id???
-            setUsuarioLocais(response.data);
-            setLoading(false);
+            if (response.status === 200) {
+                setUsuarioLocais(response.data);
+                setLoading(false);
+            } else {
+                toast.error(response.data.mensagem, {
+                    position: "top-center",
+                    theme: "colored",
+                    autoClose: 2000,
+                });
+            }
         } catch (error) {
-            console.log("Erro ao buscar locais do usuário:", error);
+            console.error("Erro ao buscar locais do usuário:", error);
             setLoading(false);
+            toast.error(error, {
+                position: "top-center",
+                theme: "colored",
+                autoClose: 2000,
+            });
         }
     };
-    
-    
+
+
     useEffect(() => {
         fetchLocaisID();
     }, []);
@@ -47,7 +60,7 @@ function PaginaLista() {
                 <h1>Seus Locais</h1>
             </div>
             <div className={styles.containerRenderizador}> {/* ajustar com o padrão */}
-            {loading ? (
+                {loading ? (
                     <p>Carregando locais</p>
                 ) : (
 
