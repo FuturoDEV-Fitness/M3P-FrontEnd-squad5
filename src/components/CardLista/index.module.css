@@ -37,7 +37,7 @@ padding: 4px;
   align-items: center;
   margin: 0 6px;
   gap: 0;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 .topo {
   display: flex;
@@ -70,5 +70,13 @@ padding: 4px;
 .praticas span {
   font-weight: bold;
 }
+.botoes{
+  display: flex; 
+  justify-content: space-between;
+  height: 36px; 
+  width: auto; 
+  /* background-color: white; */
+  margin-bottom: 0;
 
+}
 
