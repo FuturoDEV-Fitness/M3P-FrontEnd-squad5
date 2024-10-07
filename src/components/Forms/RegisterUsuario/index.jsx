@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../index.module.css";
 import { InputComponent } from "../../Input";
@@ -7,12 +7,21 @@ import { SelectComponent } from "../../Select";
 import { selectGender } from "../../../helper/selectInstance";
 import { LoginContext } from "../../../context/LoginContext";
 import { ViaCEP } from "../../../services/Geolocalizador";
-import { cadastrarUsuario } from "../../../services/Usuarios"
+import {
+  cadastrarUsuario,
+  deletarUsuario,
+  editarUsuario,
+  lerUsuariosPorId,
+} from "../../../services/Usuarios";
 import { toast } from "react-toastify";
-
+import { useParams } from "react-router-dom";
+import { formatDate } from "../../../helper/formatInstance";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../../context/AuthContext";
 
 export const FormRegisterUsuarioComponent = () => {
   const { showLogin } = useContext(LoginContext);
+  const { logout } = useContext(AuthContext);
 
   const {
     register,
@@ -21,6 +30,7 @@ export const FormRegisterUsuarioComponent = () => {
     setValue,
     getValues,
   } = useForm();
+  const { id } = useParams();
 
   const getAdress = async () => {
     const cep = getValues("cep");
@@ -34,21 +44,51 @@ export const FormRegisterUsuarioComponent = () => {
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      const configUser = async () => {
+        const userData = await lerUsuariosPorId(id);
+        setValue("nome", userData.nome);
+        setValue("cpf", userData.cpf);
+        setValue("sexo", userData.sexo);
+        setValue("dataNascimento", userData.dataNascimento.split("T")[0]);
+        setValue("email", userData.email);
+        const endereco = userData.enderecos[0];
+        if (endereco) {
+          setValue("cep", endereco.cep);
+          setValue("logradouro", endereco.logradouro);
+          setValue("bairro", endereco.bairro);
+          setValue("cidade", endereco.cidade);
+          setValue("estado", endereco.estado);
+          setValue("complemento", endereco.complemento);
+          setValue("numero", endereco.numero);
+        }
+      };
+      configUser();
+    }
+  }, []);
 
   const registerUser = async (data) => {
     try {
-      console.log(data);
-      const criado = await cadastrarUsuario(data)
-      console.log('resposta', criado)
-      if (criado?.status === 201) {
-        toast.success(`Conta criada com sucesso!`, {
-          position: "top-center",
-          theme: "colored",
-          autoClose: 2000,
-        });
+      const body = { ...data, dataNascimento: formatDate(data.dataNascimento) };
+      let response;
+      if (id) {
+        response = await editarUsuario(id, body);
+      } else {
+        response = await cadastrarUsuario(body);
       }
-    } catch (error){
-
+      console.log("resposta", response);
+      if (response?.status === 201) {
+        toast.success(
+          id ? "Conta atualizada com sucesso" : `Conta criada com sucesso!`,
+          {
+            position: "top-center",
+            theme: "colored",
+            autoClose: 2000,
+          }
+        );
+      }
+    } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
           toast.error(`Email ou CPF já cadastrados!`, {
@@ -63,15 +103,44 @@ export const FormRegisterUsuarioComponent = () => {
             autoClose: 2000,
           });
         }
+      }
     }
-  }
-
-
   };
 
+  const deleteFunction = async () => {
+    const result = await Swal.fire({
+      title: "Tem certeza?",
+      text: "Você não poderá reverter isso!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, deletar!",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      const deletedUser = await deletarUsuario(id);
+
+      if (deletedUser && deletedUser.status !== 204) {
+        toast.error(deletedUser.data.message, {
+          position: "top-center",
+          theme: "colored",
+          autoClose: 2000,
+        });
+      } else {
+        toast.success("Sua conta foi deletada com sucesso!", {
+          position: "top-center",
+          theme: "colored",
+          autoClose: 2000,
+        });
+        logout();
+      }
+    }
+  };
   return (
     <div className={styles.form}>
-      <h2 className={styles.formTitle}>Formulário de Cadastro </h2>
+      <h2 className={styles.formTitle}>
+        {!id ? "Formulário de Cadastro" : "Configuração"}
+      </h2>
       <form className={styles.formlogin} onSubmit={handleSubmit(registerUser)}>
         <div className={styles.formRow}>
           <InputComponent
@@ -91,6 +160,7 @@ export const FormRegisterUsuarioComponent = () => {
             label="CPF"
             type="text"
             id="cpf"
+            readOnly={!id ? false : true}
             placeholder="000000000 - apenas números"
             register={register("cpf", {
               required: "Obrigatório o preenchimento",
@@ -135,18 +205,19 @@ export const FormRegisterUsuarioComponent = () => {
             error={errors.email}
             errorMessage={errors.email?.message}
           />
-
-          <InputComponent
-            label="Senha"
-            type="password"
-            id="senha"
-            register={register("senha", {
-              required: "Obrigatório o preenchimento",
-              maxLength: { value: 8, message: "máximo de 8 caracteres" },
-            })}
-            error={errors.senha}
-            errorMessage={errors.senha?.message}
-          />
+          {!id && (
+            <InputComponent
+              label="Senha"
+              type="password"
+              id="senha"
+              register={register("senha", {
+                required: "Obrigatório o preenchimento",
+                minLength: { value: 6, message: "mínimo de 6 caracteres" },
+              })}
+              error={errors.senha}
+              errorMessage={errors.senha?.message}
+            />
+          )}
         </div>
         <div className={styles.formRow}>
           <InputComponent
@@ -252,10 +323,34 @@ export const FormRegisterUsuarioComponent = () => {
           />
         </div>
         <div className={styles.formRow}>
-          <ButtonComponent type="submit" variant="contained" text="Cadastrar" />
-          <span className={styles.styledLink} onClick={showLogin}>
-            Voltar para o login?
-          </span>
+          {!id ? (
+            <>
+              <ButtonComponent
+                type="submit"
+                variant="contained"
+                text="Cadastrar"
+              />
+              <span className={styles.styledLink} onClick={showLogin}>
+                Voltar para o login?
+              </span>
+            </>
+          ) : (
+            <>
+              <ButtonComponent
+                variant="contained"
+                type="submit"
+                text="Editar"
+                preset="edit"
+              />
+              <ButtonComponent
+                variant="contained"
+                type="button"
+                text="Deletar"
+                preset="delete"
+                onClick={deleteFunction}
+              />
+            </>
+          )}
         </div>
       </form>
     </div>

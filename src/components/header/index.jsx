@@ -13,7 +13,7 @@ import { useContext } from "react";
 import { LoginContext } from "../../context/LoginContext";
 
 function Header() {
-  const { isLogged, logout } = useContext(AuthContext);
+  const { isLogged, logout, user } = useContext(AuthContext);
   const { showRegister, showLogin } = useContext(LoginContext);
   const navigate = useNavigate();
 
@@ -50,7 +50,7 @@ function Header() {
               Cadastrar Locais <AddIcon />
             </Link>
 
-            <Link to="/configuracao" className={styles.link}>
+            <Link to={`/configuracao/${user.id}`} className={styles.link}>
               Configuração <SettingsIcon />
             </Link>
             <Link onClick={logout} className={styles.link}>
