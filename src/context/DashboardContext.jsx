@@ -39,7 +39,7 @@ export const DashboardContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <DashboardContext.Provider value={{ dashboardData, loading }}>
+    <DashboardContext.Provider value={{ dashboardData, loading, fetchData }}>
       {children}
     </DashboardContext.Provider>
   );
