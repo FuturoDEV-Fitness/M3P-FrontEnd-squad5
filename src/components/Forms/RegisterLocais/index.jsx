@@ -10,7 +10,6 @@ import { GetID, Store, Update } from "../../../services/Locais";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import { deleteLocalStorage } from "../../../helper/LocalStorageInstance";
 import { DashboardContext } from "../../../context/DashboardContext";
 import { LocaisContext } from "../../../context/LocaisContext";
 
