@@ -30,9 +30,11 @@ function PaginaLista() {
             }
             const jwtDecoded = jwtDecode(token);
             const userId = jwtDecoded.id;
+            console.log("antes:", userId);
             const response = await GetID(userId);
+            console.log("antes:", response.data);
             if (response && response.status === 200) {
-                console.log("Dados:", response.data);
+                console.log("depois:", response.data);
                 setUsuarioLocais([response.data]);
                 setLoading(false);
             } else {

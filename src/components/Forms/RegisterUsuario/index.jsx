@@ -6,6 +6,9 @@ import { ButtonComponent } from "../../Button";
 import { SelectComponent } from "../../Select";
 import { selectGender } from "../../../helper/selectInstance";
 import { LoginContext } from "../../../context/LoginContext";
+import { ViaCEP } from "../../../services/Geolocalizador";
+import { cadastrarUsuario } from "../../../services/Usuarios"
+
 
 export const FormRegisterUsuarioComponent = () => {
   const { showLogin } = useContext(LoginContext);
@@ -15,26 +18,26 @@ export const FormRegisterUsuarioComponent = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm();
 
-  function buscarCEP(cep) {
-    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then((response) => response.json())
-      .then((data) => {
-        setValue("endereco", data.logradouro);
-        setValue("bairro", data.bairro);
-        setValue("cidade", data.localidade);
-        setValue("estado", data.uf);
-      })
-      .catch((error) => console.error("Erro ao buscar o CEP:", error));
-  }
+  const getAdress = async () => {
+    const cep = getValues("cep");
 
-  const cepOnSubmit = (data) => {
-    buscarCEP(data.cep);
+    if (cep.length === 8) {
+      const data = await ViaCEP(cep);
+      setValue("logradouro", data.logradouro);
+      setValue("bairro", data.bairro);
+      setValue("cidade", data.localidade);
+      setValue("estado", data.estado);
+    }
   };
 
+
   const registerUser = (data) => {
+
     console.log(data);
+    cadastrarUsuario(data)
   };
 
   return (
@@ -84,8 +87,8 @@ export const FormRegisterUsuarioComponent = () => {
           <InputComponent
             label="Nascimento"
             type="date"
-            id="nascimento"
-            register={register("nascimento", {
+            id="dataNascimento"
+            register={register("dataNascimento", {
               required: "Obrigatório o preenchimento",
             })}
             error={errors.nascimento}
@@ -123,6 +126,7 @@ export const FormRegisterUsuarioComponent = () => {
             id="cep"
             placeholder="00000000 - apenas números"
             register={register("cep", {
+              onBlur: getAdress,
               required: "Obrigatório o preenchimento",
               maxLength: { value: 8, message: "máximo de 8 caracteres" },
               pattern: {
@@ -133,20 +137,19 @@ export const FormRegisterUsuarioComponent = () => {
             error={errors.cep}
             errorMessage={errors.cep?.message}
             cep={true}
-            onClick={handleSubmit(cepOnSubmit)}
           />
 
           <InputComponent
-            label="Endereço"
+            label="Logradouro"
             type="text"
-            id="endereco"
+            id="logradouro"
             readOnly={true}
-            placeholder="Endereço"
-            register={register("endereco", {
+            placeholder="Logradouro"
+            register={register("logradouro", {
               required: "Necessário o preenchimento",
             })}
-            error={errors.endereco}
-            errorMessage={errors.endereco?.message}
+            error={errors.logradouro}
+            errorMessage={errors.logradouro?.message}
           />
 
           <InputComponent
@@ -184,8 +187,8 @@ export const FormRegisterUsuarioComponent = () => {
             readOnly={true}
             register={register("estado", {
               required: "Necessário o preenchimento",
-              maxLength: { value: 2, message: "máximo de 2 caracteres" },
-              minLength: { value: 2, message: "mínimo de 2 caracteres" },
+              maxLength: { value: 150, message: "máximo de 150 caracteres" },
+              minLength: { value: 5, message: "mínimo de 5 caracteres" },
             })}
             error={errors.estado}
             errorMessage={errors.estado?.message}
@@ -201,6 +204,22 @@ export const FormRegisterUsuarioComponent = () => {
             })}
             error={errors.complemento}
             errorMessage={errors.complemento?.message}
+          />
+           <InputComponent
+            label="Número"
+            type="text"
+            id="numero"
+            placeholder="número"
+            register={register("numero", {
+              required: "Necessário o preenchimento",
+              maxLength: { value: 4, message: "máximo de 4 caracteres" },
+              pattern: {
+                value: /^[0-9]*$/,
+                message: "Apenas números são permitidos",
+              },
+            })}
+            error={errors.numero}
+            errorMessage={errors.numero?.message}
           />
         </div>
         <div className={styles.formRow}>
