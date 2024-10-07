@@ -24,7 +24,7 @@ function PaginaLista() {
     const fetchData = async () => {
       await fetchLocais();
       setLoading(false);
-
+      
       if (!usuarioLocais && usuarioLocais.length === 0) {
         toast.error("Você não possui locais cadastrados.", {
           position: "top-center",

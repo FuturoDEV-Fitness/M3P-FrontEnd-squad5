@@ -16,6 +16,7 @@ export const LocaisContextProvider = ({ children }) => {
   const fetchLocais = async () => {
     try {
       const response = await GetLocations();
+      console.log(response.data)
       if (response.status === 200) {
         setLocais(response.data);
 
