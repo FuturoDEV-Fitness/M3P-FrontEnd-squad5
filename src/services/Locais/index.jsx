@@ -24,7 +24,7 @@ export const GetID = async (id) => {
         headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
       })
       .then((res) => {
-        return res;
+        return res.data;
       })
       .catch((e) => console.log(e));
 
@@ -33,22 +33,6 @@ export const GetID = async (id) => {
     console.log(error);
   }
 };
-
-/*
-export const GetByUserId = async (userId) => {
-  try {
-    const data = await axiosInstance
-      .get(`local?user_id=${userId}`)
-      .then((r) => {
-        return r.data;
-      })
-      .catch((e) => console.log(e));
-
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};*/
 
 export const Delete = async (id) => {
   try {
@@ -61,35 +45,31 @@ export const Delete = async (id) => {
     throw err;
   }
 };
-
 export const Store = async (data) => {
   try {
-    await axiosInstance
-      .post(`local`, data, {
-        headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
-      })
-      .then((res) => {
-        return res;
-      })
-      .catch((err) => {
-        console.log("err: ", err.response.data);
-        console.log(`Erro ao cadastrar ${err.response.data.message}`);
-      });
+    const response = await axiosInstance.post(`local`, data, {
+      headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
+    });
+    return response;
   } catch (error) {
-    console.log(error);
+    console.log(
+      "Erro ao cadastrar: ",
+      error.response?.data?.message || error.message
+    );
+    throw error;
   }
 };
-
 export const Update = async (id, newData) => {
-  await axiosInstance
-    .put(`local/${id}`, newData, {
+  try {
+    const response = await axiosInstance.put(`local/${id}`, newData, {
       headers: { Authorization: `Bearer ${getLocalStorage("token")}` },
-    })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      console.log("err: ", err);
-      console.log(`Erro ao atualizar ${err.message}`);
     });
+    return response;
+  } catch (error) {
+    console.log(
+      "Erro ao atualizar:",
+      error.response?.data?.message || error.message
+    );
+    throw error;
+  }
 };

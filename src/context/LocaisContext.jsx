@@ -83,6 +83,7 @@ export const LocaisContextProvider = ({ children }) => {
         setLocais,
         setUsuarioLocais,
         deleteLocal,
+        fetchLocais,
       }}
     >
       {children}

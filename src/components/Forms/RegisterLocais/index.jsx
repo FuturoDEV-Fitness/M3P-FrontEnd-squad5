@@ -4,7 +4,15 @@ import { ButtonComponent } from "../../Button";
 import { checkBoxOptions } from "../../../helper/selectInstance";
 import styles from "../index.module.css";
 import { GetNominatim, ViaCEP } from "../../../services/Geolocalizador";
-import { Store } from "../../../services/Locais";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { GetID, Store, Update } from "../../../services/Locais";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+
+import { deleteLocalStorage } from "../../../helper/LocalStorageInstance";
+import { DashboardContext } from "../../../context/DashboardContext";
+import { LocaisContext } from "../../../context/LocaisContext";
 
 export const RegisterLocaisComponent = () => {
   const {
@@ -14,6 +22,32 @@ export const RegisterLocaisComponent = () => {
     getValues,
     formState: { errors },
   } = useForm();
+  const { fetchData } = useContext(DashboardContext);
+  const { fetchLocais, deleteLocal } = useContext(LocaisContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      const userLocal = async () => {
+        const localData = await GetID(id);
+        setValue("nomeLocal", localData.nomeLocal);
+        setValue("descricaoLocal", localData.descricaoLocal);
+        setValue("cep", localData.cep);
+        setValue("endereco", localData.endereco);
+        setValue("bairro", localData.bairro);
+        setValue("cidade", localData.cidade);
+        setValue("estado", localData.estado);
+        setValue("latitude", localData.latitude);
+        setValue("longitude", localData.longitude);
+        const praticas = localData.praticas
+          .map((pratica) => pratica.nome)
+          .flat();
+        setValue("praticasEsportivas", praticas);
+      };
+      userLocal();
+    }
+  }, []);
 
   const getLocation = async () => {
     const cep = getValues("cep");
@@ -32,13 +66,60 @@ export const RegisterLocaisComponent = () => {
       );
       setValue("latitude", latLong.latitude);
       setValue("longitude", latLong.longitude);
-      console.log(latLong);
     }
   };
 
   const registerLocal = async (data) => {
-    const store = await Store(data);
-    console.log(store);
+    try {
+      let response;
+      if (id) {
+        response = await Update(id, data);
+      } else {
+        response = await Store(data);
+      }
+
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Local salvo com sucesso!", {
+          position: "top-center",
+          theme: "colored",
+          autoClose: 2000,
+        });
+
+        fetchLocais();
+        fetchData();
+      } else {
+        toast.error(response.data.mensagem || "Erro ao salvar local", {
+          position: "top-center",
+          theme: "colored",
+          autoClose: 2000,
+        });
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.mensagem || error.message, {
+        position: "top-center",
+        theme: "colored",
+        autoClose: 2000,
+      });
+    }
+  };
+
+  const deleteFunction = async () => {
+    const result = await Swal.fire({
+      title: "Tem certeza?",
+      text: "Você não poderá reverter isso!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, deletar!",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      await deleteLocal(id);
+      fetchLocais();
+      fetchData();
+
+      navigate("/");
+    }
   };
   return (
     <>
@@ -156,7 +237,25 @@ export const RegisterLocaisComponent = () => {
             />
           ))}
         </div>
-        <ButtonComponent type="submit" text="Cadastrar" variant="success" />
+        {id ? (
+          <div className={styles.formRow}>
+            <ButtonComponent
+              variant="contained"
+              type="submit"
+              text="Editar"
+              preset="edit"
+            />
+            <ButtonComponent
+              variant="contained"
+              type="button"
+              text="Deletar"
+              preset="delete"
+              onClick={deleteFunction}
+            />
+          </div>
+        ) : (
+          <ButtonComponent type="submit" text="Cadastrar" variant="success" />
+        )}
       </form>
     </>
   );
