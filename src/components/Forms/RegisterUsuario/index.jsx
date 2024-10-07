@@ -8,6 +8,7 @@ import { selectGender } from "../../../helper/selectInstance";
 import { LoginContext } from "../../../context/LoginContext";
 import { ViaCEP } from "../../../services/Geolocalizador";
 import { cadastrarUsuario } from "../../../services/Usuarios"
+import { toast } from "react-toastify";
 
 
 export const FormRegisterUsuarioComponent = () => {
@@ -34,10 +35,38 @@ export const FormRegisterUsuarioComponent = () => {
   };
 
 
-  const registerUser = (data) => {
+  const registerUser = async (data) => {
+    try {
+      console.log(data);
+      const criado = await cadastrarUsuario(data)
+      console.log('resposta', criado)
+      if (criado?.status === 201) {
+        toast.success(`Conta criada com sucesso!`, {
+          position: "top-center",
+          theme: "colored",
+          autoClose: 2000,
+        });
+      }
+    } catch (error){
 
-    console.log(data);
-    cadastrarUsuario(data)
+      if (error.response) {
+        if (error.response.status === 400) {
+          toast.error(`Email ou CPF já cadastrados!`, {
+            position: "top-center",
+            theme: "colored",
+            autoClose: 2000,
+          });
+        } else {
+          toast.error("Erro ao criar a conta.", {
+            position: "top-center",
+            theme: "colored",
+            autoClose: 2000,
+          });
+        }
+    }
+  }
+
+
   };
 
   return (
@@ -205,7 +234,7 @@ export const FormRegisterUsuarioComponent = () => {
             error={errors.complemento}
             errorMessage={errors.complemento?.message}
           />
-           <InputComponent
+          <InputComponent
             label="Número"
             type="text"
             id="numero"

@@ -50,15 +50,19 @@ export const lerUsuariosPorId = async (id) => {
 
 // Função para cadastrar um novo usuário
 export const cadastrarUsuario = async (novoUsuario) => {
-  await axiosInstance
+  try{
+    
+ const res = await axiosInstance
     .post(`/usuario`, novoUsuario)
-    .then((res) => {
+    
       return res;
-    })
-    .catch((err) => {
+    
+  }catch(err)  {
       console.log("err: ", err.response.data);
       console.log(`Erro ao cadastrar: ${err.response.data.message}`);
-    });
+      throw err
+    };
+
 };
 
 // Função para deletar um usuário pelo ID
