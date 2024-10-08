@@ -1,38 +1,93 @@
-.cardcontainer{
-    display: flex;
-    flex-direction: column;
-    box-shadow: .2em .2em .8em rgb(65, 14, 52);
-    height: 18em;
-    margin: 10px 10px;
-    background-color: white;
-    width: 400px;
-    font-size: 0.8em;
-    padding: 10px 15px;
-    word-wrap: break-word;
-    overflow-y: auto; 
-    border-radius: 4px;
-}
-.cardcontainer span{
-    font-weight: bolder;
+.cardcontainer {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0.2em 0.2em 0.8em rgb(65, 14, 52);
+  height: 300px;
+  margin: 8px 8px;
+  background-color: var(--primary);
+  width: 400px;
+  padding: 2px;
+  word-wrap: break-word;
+  overflow-y: auto;
+  border-radius: 8px;
+  color: var(--text);
+  gap: 0;
 }
 
-.topo{
-    display: flex;
-    flex-direction: column;
-    text-align: justify;
-    justify-content: center;
-    align-items: center;
+.cardcontainer span {
+  font-weight: bolder;
 }
 
-.latLong{
-    display: flex;
-    justify-content: center;
+.map{
+height: 50%;
+width: 100%;
+padding: 4px;
+}
+.mapContainer {
+  height: 100%;
+  width: 100%;
 }
 
+.texto{
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  margin-top: 10px;
+  padding: 8px;
+}
+.topo {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+}
+.topo h3{
+  font-size: 16px;
+}
+.topo p{
+  font-size: 12px;
+}
+
+.endereco{
+  font-size: 12px;
+}
+.endereco a{
+  font-weight: bolder;
+  color: inherit; 
+  text-decoration: none;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.endereco a:hover {
+  color: var(--tertiary);
+ 
+}
+
+.praticas{
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  margin: 0 10px;
+  font-weight: bold;
+}
 .praticas span {
-    font-weight: bold;
+  font-weight: bold;
+}
+.botoes{
+  display: flex; 
+  justify-content: space-between;
+  height: 26px; 
+  width: auto; 
+  margin: 0;
+
 }
 
-.praticas p {
-    font-weight: normal;
-}
